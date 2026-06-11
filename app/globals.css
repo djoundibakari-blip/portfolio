@@ -28,27 +28,27 @@
   --radius: 0.625rem;
 }
 
-/* Theme 2: Light — Dreamlit Horizon palette */
+/* Theme 2: Light — Periwinkle Dream palette */
 [data-theme="light"] {
-  --background: #fff2d0;
-  --foreground: #020C1C;
-  --card: #ffffff;
-  --card-foreground: #020C1C;
-  --popover: #ffffff;
-  --popover-foreground: #020C1C;
-  --primary: #3e668f;
+  --background: #F8F7FF;
+  --foreground: #1a1a2e;
+  --card: #FFEEDD;
+  --card-foreground: #1a1a2e;
+  --popover: #FFEEDD;
+  --popover-foreground: #1a1a2e;
+  --primary: #9381FF;
   --primary-foreground: #ffffff;
-  --secondary: #aab4e7;
-  --secondary-foreground: #020C1C;
-  --muted: #aab4e7;
-  --muted-foreground: #2F456E;
-  --accent: #ffdb83;
-  --accent-foreground: #020C1C;
+  --secondary: #FFD8BE;
+  --secondary-foreground: #1a1a2e;
+  --muted: #FFD8BE;
+  --muted-foreground: #6b5ea8;
+  --accent: #B8B8FF;
+  --accent-foreground: #1a1a2e;
   --destructive: #ff3b3b;
   --destructive-foreground: #ffffff;
-  --border: #81a9ee;
-  --input: #fff2d0;
-  --ring: #3e668f;
+  --border: #B8B8FF;
+  --input: #FFEEDD;
+  --ring: #9381FF;
 }
 
 /* Theme 3: Dragon Ball */
