@@ -1,0 +1,42 @@
+{
+  "name": "portfolio-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Portfolio RNCP",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "db:seed": "node src/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "dotenv": "^16.3.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "zod": "^3.22.4",
+    "multer": "^1.4.5-lts.1",
+    "prisma": "^5.7.1",
+    "@prisma/client": "^5.7.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "express-rate-limit": "^7.1.5",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "@types/jest": "^29.5.8"
+  },
+  "keywords": ["portfolio", "rncp", "nodejs", "express", "mysql", "prisma"],
+  "author": "Djoundi Bakari",
+  "license": "MIT"
+}
