@@ -7,12 +7,12 @@ const highlights = [
   {
     icon: Code2,
     title: "Front-End",
-    description: "HTML, CSS, JavaScript, Tailwind CSS",
+    description: "HTML, CSS, JavaScript, Tailwind CSS, Bootstrap",
   },
   {
     icon: Server,
     title: "Back-End",
-    description: "PHP, Laravel, Java, Springboot",
+    description: "PHP, Java, Springboot, J2EE, Rest API",
   },
   {
     icon: Palette,
