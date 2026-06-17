@@ -13,7 +13,7 @@ const projects = [
     tags: ["Laravel", "Docker", "Tailwind CSS", "PHP"],
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/projet-ESN",
-    live: null,
+    live: "https://projet-esn.vercel.app",
     featured: true,
   },
   {
@@ -24,7 +24,7 @@ const projects = [
     tags: ["PHP", "SQL", "Tailwind CSS", "HTML"],
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/my-cinema",
-    live: null,
+    live: "https://my-cinema-one.vercel.app",
     featured: true,
   },
   {
@@ -35,7 +35,7 @@ const projects = [
     tags: ["HTML", "JavaScript", "Bootstrap", "PHP"],
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/generateur-de-CV",
-    live: null,
+    live: "https://generateur-de-cv-eight.vercel.app",
     featured: true,
   },
   {
@@ -56,6 +56,7 @@ export function Projects() {
   const [current, setCurrent] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
+  const wasDragged = useRef(false)
   const sectionRef = useRef<HTMLElement>(null)
   const total = projects.length
 
@@ -95,12 +96,14 @@ export function Projects() {
   const handleDragStart = (clientX: number) => {
     setIsDragging(true)
     setStartX(clientX)
+    wasDragged.current = false
   }
 
   const handleDragEnd = (clientX: number) => {
     if (!isDragging) return
     const diff = startX - clientX
     if (Math.abs(diff) > 50) {
+      wasDragged.current = true
       diff > 0 ? next() : prev()
     }
     setIsDragging(false)
@@ -139,16 +142,20 @@ export function Projects() {
           <div className="max-w-4xl mx-auto">
             {/* Card */}
             <div
-              className="relative select-none cursor-grab active:cursor-grabbing"
+              className="relative"
               onMouseDown={(e) => handleDragStart(e.clientX)}
               onMouseUp={(e) => handleDragEnd(e.clientX)}
               onMouseLeave={() => setIsDragging(false)}
               onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
               onTouchEnd={(e) => handleDragEnd(e.changedTouches[0].clientX)}
             >
-              <div
+              <a
                 key={project.id}
-                className="bg-card border border-border rounded-2xl overflow-hidden transition-all duration-500"
+                href={project.live ?? project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => wasDragged.current && e.preventDefault()}
+                className="block bg-card border border-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-primary/60 hover:shadow-lg hover:shadow-primary/10 cursor-pointer"
               >
                 {/* Card top bar with category */}
                 <div className="flex items-center justify-between px-8 pt-8 pb-4">
@@ -216,7 +223,7 @@ export function Projects() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
 
             {/* Navigation controls */}
