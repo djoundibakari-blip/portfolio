@@ -149,12 +149,13 @@ export function Projects() {
               onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
               onTouchEnd={(e) => handleDragEnd(e.changedTouches[0].clientX)}
             >
-              <a
+              <div
                 key={project.id}
-                href={project.live ?? project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => wasDragged.current && e.preventDefault()}
+                onClick={() => {
+                  if (wasDragged.current) return;
+                  const url = project.live ?? project.github;
+                  if (url) window.open(url, "_blank", "noopener,noreferrer");
+                }}
                 className="block bg-card border border-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-primary/60 hover:shadow-lg hover:shadow-primary/10 cursor-pointer"
               >
                 {/* Card top bar with category */}
@@ -223,7 +224,7 @@ export function Projects() {
                     </div>
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
 
             {/* Navigation controls */}
