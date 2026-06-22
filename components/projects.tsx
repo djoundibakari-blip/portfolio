@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
 import { GithubIcon } from "@/components/icons"
+import Image from "next/image"
 
 const projects = [
   {
@@ -14,6 +15,7 @@ const projects = [
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/projet-ESN",
     live: "https://projet-esn.vercel.app",
+    image: "/proj-esn.png",
     featured: true,
   },
   {
@@ -25,6 +27,7 @@ const projects = [
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/my-cinema",
     live: "https://my-cinema-one.vercel.app",
+    image: "/proj-cinema.png",
     featured: true,
   },
   {
@@ -36,6 +39,7 @@ const projects = [
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/generateur-de-CV",
     live: "https://generateur-de-cv-eight.vercel.app",
+    image: "/proj-cv.png",
     featured: true,
   },
   {
@@ -47,6 +51,7 @@ const projects = [
     category: "Projet Personnel",
     github: "https://github.com/djoundibakari-blip/Portfolio",
     live: "#accueil",
+    image: "/placeholder.jpg",
     featured: false,
   },
 ]
@@ -156,19 +161,29 @@ export function Projects() {
                   const url = project.live ?? project.github;
                   if (url) window.open(url, "_blank", "noopener,noreferrer");
                 }}
-                className="block bg-card border border-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-primary/60 hover:shadow-lg hover:shadow-primary/10 cursor-pointer"
+                className="group block bg-card border border-border rounded-2xl overflow-hidden transition-all duration-500 hover:border-primary/60 hover:shadow-lg hover:shadow-primary/10 cursor-pointer"
               >
-                {/* Card top bar with category */}
-                <div className="flex items-center justify-between px-8 pt-8 pb-4">
-                  <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full uppercase tracking-wider">
-                    {project.category}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {current + 1} / {total}
-                  </span>
-                </div>
+                {/* Screenshot */}
+                {project.image && (
+                  <div className="relative w-full h-52 overflow-hidden">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 800px"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-card/80" />
+                    <span className="absolute top-3 left-3 px-3 py-1 bg-primary/90 text-primary-foreground text-xs font-semibold rounded-full uppercase tracking-wider backdrop-blur-sm">
+                      {project.category}
+                    </span>
+                    <span className="absolute top-3 right-3 px-2.5 py-1 bg-card/80 text-muted-foreground text-xs rounded-full backdrop-blur-sm">
+                      {current + 1} / {total}
+                    </span>
+                  </div>
+                )}
 
-                <div className="px-8 pb-8 md:grid md:grid-cols-5 md:gap-8 md:items-center">
+                <div className="px-8 pb-8 pt-6 md:grid md:grid-cols-5 md:gap-8 md:items-center">
                   {/* Project number — decorative */}
                   <div className="hidden md:flex md:col-span-1 items-center justify-center">
                     <span className="text-[8rem] font-black text-primary/10 leading-none select-none">
