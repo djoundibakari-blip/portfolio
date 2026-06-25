@@ -1,29 +1,24 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Code2, Palette, Server, Lightbulb } from "lucide-react"
+import {
+  SiHtml5, SiCss, SiJavascript, SiPhp, SiMysql,
+  SiDocker, SiGit, SiTailwindcss, SiBootstrap, SiSpring,
+} from "react-icons/si"
+import { FaJava } from "react-icons/fa"
 
-const highlights = [
-  {
-    icon: Code2,
-    title: "Front-End",
-    description: "HTML, CSS, JavaScript, Tailwind CSS, Bootstrap",
-  },
-  {
-    icon: Server,
-    title: "Back-End",
-    description: "PHP, Java, Springboot, J2EE, Rest API",
-  },
-  {
-    icon: Palette,
-    title: "DevOps",
-    description: "Docker, Git, déploiement, versionnage",
-  },
-  {
-    icon: Lightbulb,
-    title: "Méthodologie",
-    description: "Agile, RGPD, accessibilité, documentation",
-  },
+const techs = [
+  { icon: SiHtml5,       name: "HTML",         color: "#E34F26" },
+  { icon: SiCss,         name: "CSS",          color: "#1572B6" },
+  { icon: SiJavascript,  name: "JavaScript",   color: "#F7DF1E" },
+  { icon: SiPhp,         name: "PHP",          color: "#777BB4" },
+  { icon: FaJava,        name: "Java",         color: "#F89820" },
+  { icon: SiMysql,       name: "SQL",          color: "#4479A1" },
+  { icon: SiDocker,      name: "Docker",       color: "#2496ED" },
+  { icon: SiGit,         name: "Git",          color: "#F05032" },
+  { icon: SiTailwindcss, name: "Tailwind CSS", color: "#06B6D4" },
+  { icon: SiBootstrap,   name: "Bootstrap",    color: "#7952B3" },
+  { icon: SiSpring,      name: "Spring Boot",  color: "#6DB33F" },
 ]
 
 export function About() {
@@ -102,7 +97,7 @@ export function About() {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-6 pt-6">
                 <div className="text-center p-4 bg-card rounded-lg border border-border">
-                  <p className="text-3xl font-bold text-primary">3</p>
+                  <p className="text-3xl font-bold text-primary">6</p>
                   <p className="text-sm text-muted-foreground">Projets réalisés</p>
                 </div>
                 <div className="text-center p-4 bg-card rounded-lg border border-border">
@@ -116,27 +111,20 @@ export function About() {
               </div>
             </div>
 
-            {/* Highlights grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {highlights.map((item, index) => (
+            {/* Tech logos grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {techs.map((tech, index) => (
                 <div
-                  key={item.title}
-                  className={`p-6 bg-card rounded-xl border border-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 transform ${
+                  key={tech.name}
+                  className={`flex items-center gap-3 p-4 bg-card rounded-xl border border-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-1 transform ${
                     isVisible
                       ? "translate-y-0 opacity-100"
                       : "translate-y-10 opacity-0"
                   }`}
-                  style={{ transitionDelay: `${index * 100}ms` }}
+                  style={{ transitionDelay: `${index * 60}ms` }}
                 >
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
-                    <item.icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <h4 className="font-semibold text-foreground mb-2">
-                    {item.title}
-                  </h4>
-                  <p className="text-sm text-muted-foreground">
-                    {item.description}
-                  </p>
+                  <tech.icon style={{ color: tech.color }} className="w-8 h-8 shrink-0" />
+                  <p className="font-semibold text-foreground text-sm">{tech.name}</p>
                 </div>
               ))}
             </div>

@@ -43,6 +43,30 @@ const projects = [
     featured: true,
   },
   {
+    id: 5,
+    title: "Klivio — Intégration Web",
+    description:
+      "Intégration fidèle d'une maquette en deux phases : Phase 1 en HTML/CSS pur (Flexbox, Grid), Phase 2 redesign dark mode complet avec Tailwind CSS v4.",
+    tags: ["HTML", "CSS", "Tailwind CSS"],
+    category: "Projet Epitech",
+    github: "https://github.com/djoundibakari-blip/Klivio",
+    live: "https://klivio-chi.vercel.app",
+    image: "/proj-klivio.png",
+    featured: true,
+  },
+  {
+    id: 6,
+    title: "Videops — Jeux Rétro Arcade",
+    description:
+      "Collection de jeux arcade rétro (Pong, Snake, Tetris…) déployée avec une pipeline CI/CD entièrement automatisée via GitHub Actions.",
+    tags: ["JavaScript", "HTML", "CI/CD", "GitHub Actions"],
+    category: "Projet Epitech",
+    github: "https://github.com/djoundibakari-blip/Videops",
+    live: "https://videops-one.vercel.app",
+    image: "/proj-videops.png",
+    featured: true,
+  },
+  {
     id: 4,
     title: "Portfolio Personnel",
     description:
