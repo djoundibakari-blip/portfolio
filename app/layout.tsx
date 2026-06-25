@@ -25,17 +25,17 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: 'Djoundi Bakari | Developpeur Web Full-Stack',
-  description: 'Portfolio de Djoundi Bakari, developpeur web full-stack en alternance a Epitech Lyon. Specialise en React, Next.js et Node.js.',
-  keywords: ['developpeur web', 'full-stack', 'React', 'Next.js', 'portfolio', 'RNCP', 'Epitech'],
+  title: 'Djoundi Bakari | Alternant Développeur Web',
+  description: 'Portfolio de Djoundi Bakari, alternant développeur web à Epitech Lyon. Spécialisé en PHP/Laravel, Java/Spring Boot, JavaScript, Docker et Tailwind CSS.',
+  keywords: ['developpeur web', 'alternance', 'PHP', 'Laravel', 'Java', 'Spring Boot', 'JavaScript', 'Docker', 'Tailwind', 'portfolio', 'RNCP', 'Epitech'],
   authors: [{ name: 'Djoundi Bakari' }],
   creator: 'Djoundi Bakari',
   generator: 'Next.js',
   openGraph: {
     type: 'website',
     locale: 'fr_FR',
-    title: 'Djoundi Bakari | Developpeur Web Full-Stack',
-    description: 'Portfolio de Djoundi Bakari, developpeur web full-stack.',
+    title: 'Djoundi Bakari | Alternant Développeur Web',
+    description: 'Portfolio de Djoundi Bakari, alternant développeur web à Epitech Lyon.',
     siteName: 'Portfolio Djoundi Bakari',
   },
   icons: {
@@ -54,7 +54,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="fr" className="bg-background">
+    <html lang="fr" className="bg-background" data-theme="dragonball" suppressHydrationWarning>
       <body className={`${poppins.variable} ${jetbrainsMono.variable} ${bebasNeue.variable} font-sans antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}

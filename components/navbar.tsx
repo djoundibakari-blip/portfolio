@@ -19,25 +19,28 @@ export function Navbar() {
   const [activeSection, setActiveSection] = useState("accueil")
 
   useEffect(() => {
+    let rafId: number | null = null
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-
-      // Detect active section
-      const sections = navLinks.map((link) => link.href.slice(1))
-      for (const section of sections.reverse()) {
-        const element = document.getElementById(section)
-        if (element) {
-          const rect = element.getBoundingClientRect()
-          if (rect.top <= 150) {
+      if (rafId) return
+      rafId = requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 50)
+        const sections = navLinks.map((link) => link.href.slice(1))
+        for (const section of sections.reverse()) {
+          const element = document.getElementById(section)
+          if (element && element.getBoundingClientRect().top <= 150) {
             setActiveSection(section)
             break
           }
         }
-      }
+        rafId = null
+      })
     }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
   }, [])
 
   const handleNavClick = (href: string) => {
@@ -129,6 +132,7 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         <div
+          aria-hidden={!isOpen}
           className={cn(
             "md:hidden overflow-hidden transition-all duration-300",
             isOpen ? "max-h-96 opacity-100 mt-4" : "max-h-0 opacity-0"
@@ -139,6 +143,7 @@ export function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
+                  tabIndex={isOpen ? 0 : -1}
                   onClick={(e) => {
                     e.preventDefault()
                     handleNavClick(link.href)
@@ -158,10 +163,11 @@ export function Navbar() {
               <a
                 href="/cv.pdf"
                 download
+                tabIndex={isOpen ? 0 : -1}
                 className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-3 rounded-lg text-base font-medium hover:bg-primary/90 transition-colors"
               >
                 <Download className="w-5 h-5" />
-                Telecharger CV
+                Télécharger CV
               </a>
             </li>
             <li className="flex justify-center pt-2">

@@ -153,17 +153,20 @@ export function Projects() {
                     {colProjects.map((proj, i) => {
                       const projIndex = projects.findIndex(p => p.id === proj.id)
                       const isActive = current === projIndex
+                      const isDuplicate = i >= projects.length
                       return (
                         <button
                           key={`${proj.id}-${i}`}
                           onClick={() => setCurrent(projIndex)}
+                          aria-hidden={isDuplicate}
+                          tabIndex={isDuplicate ? -1 : 0}
                           className={`relative rounded-xl overflow-hidden shrink-0 w-full transition-all duration-500 ${
                             isActive
                               ? "opacity-100 ring-2 ring-primary scale-[1.02]"
                               : "opacity-35 hover:opacity-65"
                           }`}
                           style={{ height: "155px" }}
-                          aria-label={proj.title}
+                          aria-label={isDuplicate ? undefined : proj.title}
                         >
                           <Image
                             src={proj.image}

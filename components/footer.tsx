@@ -85,7 +85,7 @@ export function Footer() {
             download
             className="text-sm text-muted-foreground hover:text-primary transition-colors"
           >
-            Telecharger CV
+            Télécharger CV
           </a>
           <span className="text-muted-foreground">|</span>
           <a

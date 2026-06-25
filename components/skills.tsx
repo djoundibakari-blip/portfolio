@@ -226,6 +226,7 @@ export function Skills() {
 
                 {/* Expanded content */}
                 <div
+                  aria-hidden={expandedBloc !== bloc.id}
                   className={cn(
                     "overflow-hidden transition-all duration-500",
                     expandedBloc === bloc.id

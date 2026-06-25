@@ -1,11 +1,11 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Mail, MapPin, Phone, Send, CheckCircle, Loader2 } from "lucide-react"
+import { Mail, MapPin, Phone, Send, CheckCircle, Loader2, AlertCircle } from "lucide-react"
 
 export function Contact() {
   const [isVisible, setIsVisible] = useState(false)
-  const [formState, setFormState] = useState<"idle" | "loading" | "success">(
+  const [formState, setFormState] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   )
   const [formData, setFormData] = useState({
@@ -36,13 +36,25 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setFormState("loading")
-
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    setFormState("success")
-    setFormData({ name: "", email: "", subject: "", message: "" })
-
-    setTimeout(() => setFormState("idle"), 3000)
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/djoundi.bakari@outlook.fr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          _subject: `Portfolio — ${formData.subject}`,
+          message: formData.message,
+        }),
+      })
+      if (!res.ok) throw new Error()
+      setFormState("success")
+      setFormData({ name: "", email: "", subject: "", message: "" })
+      setTimeout(() => setFormState("idle"), 4000)
+    } catch {
+      setFormState("error")
+      setTimeout(() => setFormState("idle"), 4000)
+    }
   }
 
   const handleChange = (
@@ -228,8 +240,13 @@ export function Contact() {
 
                 <button
                   type="submit"
-                  disabled={formState !== "idle"}
-                  className="w-full py-4 bg-primary text-primary-foreground font-semibold rounded-lg hover:bg-primary/90 transition-all disabled:opacity-70 flex items-center justify-center gap-2"
+                  disabled={formState === "loading" || formState === "success"}
+                  aria-live="polite"
+                  className={`w-full py-4 font-semibold rounded-lg transition-all disabled:opacity-70 flex items-center justify-center gap-2 ${
+                    formState === "error"
+                      ? "bg-destructive text-destructive-foreground"
+                      : "bg-primary text-primary-foreground hover:bg-primary/90"
+                  }`}
                 >
                   {formState === "idle" && (
                     <>
@@ -247,6 +264,12 @@ export function Contact() {
                     <>
                       <CheckCircle className="w-5 h-5" />
                       Message envoyé !
+                    </>
+                  )}
+                  {formState === "error" && (
+                    <>
+                      <AlertCircle className="w-5 h-5" />
+                      Erreur — réessayez
                     </>
                   )}
                 </button>

@@ -90,7 +90,7 @@ export function Hero() {
           <div className="h-12 md:h-16 flex items-center justify-center">
             <p className="text-xl md:text-2xl lg:text-3xl text-primary font-medium">
               {displayText}
-              <span className="animate-pulse">|</span>
+              <span className="animate-pulse" aria-hidden="true">|</span>
             </p>
           </div>
 
