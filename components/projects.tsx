@@ -1,161 +1,117 @@
 "use client"
 
-import { useEffect, useRef, useState, useCallback } from "react"
-import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
+import { useEffect, useRef, useState } from "react"
+import { ArrowRight } from "lucide-react"
 import { GithubIcon } from "@/components/icons"
 import Image from "next/image"
 
 const projects = [
   {
     id: 1,
-    title: "Réseau Social d'Entreprise (ESN)",
+    title: "Réseau Social d'Entreprise",
     description:
-      "Réseau interne à une entreprise avec un fil d'actualité, une page de connexion et un système de création de compte. Développé avec Laravel, Docker et Tailwind CSS.",
+      "Réseau interne avec fil d'actualité, connexion et création de compte. Laravel, Docker, Tailwind CSS.",
     tags: ["Laravel", "Docker", "Tailwind CSS", "PHP"],
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/projet-ESN",
     live: "https://projet-esn.vercel.app",
     image: "/proj-esn.png",
-    featured: true,
   },
   {
     id: 2,
     title: "My Cinema",
     description:
-      "Interface de home cinema complète avec catalogue de films, gestion des horaires et système de réservation en ligne. Développé en PHP, SQL et Tailwind CSS.",
+      "Home cinema avec catalogue de films, horaires et réservation en ligne. PHP, SQL, Tailwind CSS.",
     tags: ["PHP", "SQL", "Tailwind CSS", "HTML"],
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/my-cinema",
     live: "https://my-cinema-one.vercel.app",
     image: "/proj-cinema.png",
-    featured: true,
   },
   {
     id: 3,
     title: "Générateur de CV",
     description:
-      "Application web permettant de générer un CV personnalisé uniquement en saisissant ses informations personnelles. Interface simple et intuitive.",
+      "Génère un CV personnalisé à partir d'informations saisies. Interface simple et intuitive.",
     tags: ["HTML", "JavaScript", "Bootstrap", "PHP"],
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/generateur-de-CV",
     live: "https://generateur-de-cv-eight.vercel.app",
     image: "/proj-cv.png",
-    featured: true,
   },
   {
     id: 5,
     title: "Klivio — Intégration Web",
     description:
-      "Intégration fidèle d'une maquette en deux phases : Phase 1 en HTML/CSS pur (Flexbox, Grid), Phase 2 redesign dark mode complet avec Tailwind CSS v4.",
+      "Intégration d'une maquette en deux phases : HTML/CSS pur puis redesign Tailwind CSS v4.",
     tags: ["HTML", "CSS", "Tailwind CSS"],
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/Klivio",
     live: "https://klivio-chi.vercel.app",
     image: "/proj-klivio.png",
-    featured: true,
   },
   {
     id: 6,
-    title: "Videops — Jeux Rétro Arcade",
+    title: "Videops — Jeux Rétro",
     description:
-      "Collection de jeux arcade rétro (Pong, Snake, Tetris…) déployée avec une pipeline CI/CD entièrement automatisée via GitHub Actions.",
-    tags: ["JavaScript", "HTML", "CI/CD", "GitHub Actions"],
+      "Collection de jeux arcade rétro déployée avec une pipeline CI/CD automatisée via GitHub Actions.",
+    tags: ["JavaScript", "HTML", "CI/CD"],
     category: "Projet Epitech",
     github: "https://github.com/djoundibakari-blip/Videops",
     live: "https://videops-one.vercel.app",
     image: "/proj-videops.png",
-    featured: true,
   },
   {
     id: 4,
     title: "Portfolio Personnel",
     description:
-      "Ce portfolio que vous consultez actuellement ! Conçu avec Next.js, TypeScript et Tailwind CSS pour présenter mes compétences et projets.",
+      "Ce portfolio ! Conçu avec Next.js, TypeScript et Tailwind CSS.",
     tags: ["Next.js", "TypeScript", "Tailwind CSS"],
     category: "Projet Personnel",
     github: "https://github.com/djoundibakari-blip/Portfolio",
-    live: "#accueil",
+    live: "https://portfolio-self-eta-24.vercel.app",
     image: "/placeholder.jpg",
-    featured: false,
   },
 ]
 
-type Phase = "visible" | "exiting" | "entering"
+const colConfig = [
+  { speed: 22, offset: 0 },
+  { speed: 28, offset: -90 },
+  { speed: 19, offset: -50 },
+  { speed: 25, offset: -120 },
+]
+
+// Build 4 columns, each starting at a different project offset, doubled for seamless loop
+const scrollColumns = colConfig.map((_, col) => {
+  const offset = (col * Math.ceil(projects.length / 4)) % projects.length
+  const rotated = [...projects.slice(offset), ...projects.slice(0, offset)]
+  return [...rotated, ...rotated]
+})
 
 export function Projects() {
   const [isVisible, setIsVisible] = useState(false)
   const [current, setCurrent] = useState(0)
-  const [phase, setPhase] = useState<Phase>("visible")
-  const [dir, setDir] = useState<"next" | "prev">("next")
-  const [isDragging, setIsDragging] = useState(false)
-  const [startX, setStartX] = useState(0)
-  const wasDragged = useRef(false)
   const sectionRef = useRef<HTMLElement>(null)
-  const total = projects.length
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true)
-        }
-      },
+      ([entry]) => { if (entry.isIntersecting) setIsVisible(true) },
       { threshold: 0.1 }
     )
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current)
-    }
-
+    if (sectionRef.current) observer.observe(sectionRef.current)
     return () => observer.disconnect()
   }, [])
 
-  const navigate = useCallback((direction: "next" | "prev") => {
-    if (phase !== "visible") return
-    setDir(direction)
-    setPhase("exiting")
-    setTimeout(() => {
-      setCurrent((c) => direction === "next" ? (c + 1) % total : (c - 1 + total) % total)
-      setPhase("entering")
-      setTimeout(() => setPhase("visible"), 320)
-    }, 280)
-  }, [phase, total])
-
-  const prev = useCallback(() => navigate("prev"), [navigate])
-  const next = useCallback(() => navigate("next"), [navigate])
-
-  // Auto-play
   useEffect(() => {
     if (!isVisible) return
-    const interval = setInterval(next, 5000)
-    return () => clearInterval(interval)
-  }, [isVisible, next])
-
-  // Touch/drag handlers
-  const handleDragStart = (clientX: number) => {
-    setIsDragging(true)
-    setStartX(clientX)
-    wasDragged.current = false
-  }
-
-  const handleDragEnd = (clientX: number) => {
-    if (!isDragging) return
-    const diff = startX - clientX
-    if (Math.abs(diff) > 50) {
-      wasDragged.current = true
-      diff > 0 ? next() : prev()
-    }
-    setIsDragging(false)
-  }
+    const t = setInterval(() => setCurrent(c => (c + 1) % projects.length), 4000)
+    return () => clearInterval(t)
+  }, [isVisible])
 
   const project = projects[current]
 
   return (
-    <section
-      id="projets"
-      ref={sectionRef}
-      className="py-24 bg-secondary/30 relative"
-    >
+    <section id="projets" ref={sectionRef} className="py-24 bg-secondary/30 relative">
       <div className="container mx-auto px-6">
         <div
           className={`transform transition-all duration-700 ${
@@ -177,161 +133,106 @@ export function Projects() {
             </p>
           </div>
 
-          {/* Carousel */}
           <div className="max-w-4xl mx-auto">
-            {/* Card */}
+            {/* Main showcase card */}
             <div
-              className="relative"
-              onMouseDown={(e) => handleDragStart(e.clientX)}
-              onMouseUp={(e) => handleDragEnd(e.clientX)}
-              onMouseLeave={() => setIsDragging(false)}
-              onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
-              onTouchEnd={(e) => handleDragEnd(e.changedTouches[0].clientX)}
+              className="relative rounded-2xl overflow-hidden bg-[#080808]"
+              style={{ height: "560px" }}
             >
-              <div
-                key={project.id}
-                onClick={() => {
-                  if (wasDragged.current) return;
-                  const url = project.live ?? project.github;
-                  if (url) window.open(url, "_blank", "noopener,noreferrer");
-                }}
-                className={`group block bg-card border border-border rounded-2xl overflow-hidden transition-all duration-[280ms] ease-in-out hover:border-primary/60 hover:shadow-lg hover:shadow-primary/10 cursor-pointer ${
-                  phase === "visible"
-                    ? "opacity-100 translate-x-0"
-                    : phase === "exiting"
-                    ? dir === "next"
-                      ? "opacity-0 -translate-x-10"
-                      : "opacity-0 translate-x-10"
-                    : dir === "next"
-                    ? "opacity-0 translate-x-10"
-                    : "opacity-0 -translate-x-10"
-                }`}
-              >
-                {/* Screenshot */}
-                {project.image && (
-                  <div className="relative w-full h-52 overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 800px"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-card/80" />
-                    <span className="absolute top-3 left-3 px-3 py-1 bg-primary/90 text-primary-foreground text-xs font-semibold rounded-full uppercase tracking-wider backdrop-blur-sm">
-                      {project.category}
-                    </span>
-                    <span className="absolute top-3 right-3 px-2.5 py-1 bg-card/80 text-muted-foreground text-xs rounded-full backdrop-blur-sm">
-                      {current + 1} / {total}
-                    </span>
-                  </div>
-                )}
-
-                <div className="px-8 pb-8 pt-6 md:grid md:grid-cols-5 md:gap-8 md:items-center">
-                  {/* Project number — decorative */}
-                  <div className="hidden md:flex md:col-span-1 items-center justify-center">
-                    <span className="text-[8rem] font-black text-primary/10 leading-none select-none">
-                      {String(current + 1).padStart(2, "0")}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <div className="md:col-span-4 space-y-5">
-                    <h4 className="text-2xl md:text-3xl font-bold text-foreground leading-snug">
-                      {project.title}
-                    </h4>
-                    <p className="text-muted-foreground leading-relaxed text-base">
-                      {project.description}
-                    </p>
-
-                    {/* Tags */}
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-3 py-1 bg-secondary border border-border text-xs text-muted-foreground rounded-full"
+              {/* Scrolling image grid */}
+              <div className="absolute inset-0 grid grid-cols-4 gap-2 p-2 overflow-hidden">
+                {scrollColumns.map((colProjects, colIdx) => (
+                  <div
+                    key={colIdx}
+                    className="flex flex-col gap-2"
+                    style={{
+                      animation: `scrollUp ${colConfig[colIdx].speed}s linear infinite`,
+                      marginTop: `${colConfig[colIdx].offset}px`,
+                    }}
+                  >
+                    {colProjects.map((proj, i) => {
+                      const projIndex = projects.findIndex(p => p.id === proj.id)
+                      const isActive = current === projIndex
+                      return (
+                        <button
+                          key={`${proj.id}-${i}`}
+                          onClick={() => setCurrent(projIndex)}
+                          className={`relative rounded-xl overflow-hidden shrink-0 w-full transition-all duration-500 ${
+                            isActive
+                              ? "opacity-100 ring-2 ring-primary scale-[1.02]"
+                              : "opacity-35 hover:opacity-65"
+                          }`}
+                          style={{ height: "155px" }}
+                          aria-label={proj.title}
                         >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Links */}
-                    <div className="flex gap-4 pt-2">
-                      {project.github && (
-                        <a
-                          href={project.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-2 px-5 py-2.5 bg-secondary border border-border text-sm font-medium text-foreground rounded-lg hover:border-primary hover:text-primary transition-all"
-                        >
-                          <GithubIcon className="w-4 h-4" />
-                          GitHub
-                        </a>
-                      )}
-                      {project.live && (
-                        <a
-                          href={project.live}
-                          target={project.live !== "#accueil" ? "_blank" : undefined}
-                          rel={project.live !== "#accueil" ? "noopener noreferrer" : undefined}
-                          className="flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-all"
-                        >
-                          <ExternalLink className="w-4 h-4" />
-                          Voir le site
-                        </a>
-                      )}
-                    </div>
+                          <Image
+                            src={proj.image}
+                            alt={proj.title}
+                            fill
+                            className="object-cover object-top"
+                            sizes="200px"
+                          />
+                        </button>
+                      )
+                    })}
                   </div>
+                ))}
+              </div>
+
+              {/* Bottom gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-[#080808]/55 to-transparent pointer-events-none" />
+
+              {/* Project info bar */}
+              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 flex items-end justify-between gap-4">
+                <div className="pointer-events-none">
+                  <span className="text-xs text-white/40 uppercase tracking-widest">
+                    {project.category}
+                  </span>
+                  <h4 className="text-2xl md:text-3xl font-bold text-white mt-1 leading-tight">
+                    {project.title}
+                  </h4>
+                  <p className="text-white/55 text-sm mt-2 max-w-xs leading-relaxed line-clamp-2">
+                    {project.description}
+                  </p>
+                </div>
+
+                <div className="flex gap-2 shrink-0 items-center">
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all"
+                    aria-label="GitHub"
+                  >
+                    <GithubIcon className="w-5 h-5" />
+                  </a>
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-5 py-3 bg-white text-black text-sm font-bold rounded-full hover:bg-white/90 transition-all whitespace-nowrap"
+                  >
+                    Voir le site
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
                 </div>
               </div>
             </div>
 
-            {/* Navigation controls */}
-            <div className="flex items-center justify-between mt-8">
-              {/* Prev / Next */}
-              <div className="flex items-center gap-3">
+            {/* Dots navigation */}
+            <div className="flex items-center justify-center gap-2 mt-6">
+              {projects.map((_, i) => (
                 <button
-                  onClick={prev}
-                  className="p-3 bg-card border border-border rounded-full text-muted-foreground hover:text-primary hover:border-primary transition-all hover:scale-110"
-                  aria-label="Projet précédent"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={next}
-                  className="p-3 bg-card border border-border rounded-full text-muted-foreground hover:text-primary hover:border-primary transition-all hover:scale-110"
-                  aria-label="Projet suivant"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Dots */}
-              <div className="flex items-center gap-2">
-                {projects.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrent(i)}
-                    className={`rounded-full transition-all duration-300 ${
-                      i === current
-                        ? "w-8 h-2.5 bg-primary"
-                        : "w-2.5 h-2.5 bg-border hover:bg-muted-foreground"
-                    }`}
-                    aria-label={`Aller au projet ${i + 1}`}
-                  />
-                ))}
-              </div>
-
-              {/* GitHub link */}
-              <a
-                href="https://github.com/djoundibakari-blip"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                <GithubIcon className="w-4 h-4" />
-                Tous mes projets
-              </a>
+                  key={i}
+                  onClick={() => setCurrent(i)}
+                  className={`rounded-full transition-all duration-300 ${
+                    i === current
+                      ? "w-8 h-2.5 bg-primary"
+                      : "w-2.5 h-2.5 bg-border hover:bg-muted-foreground"
+                  }`}
+                  aria-label={`Projet ${i + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>
