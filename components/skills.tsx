@@ -139,7 +139,7 @@ const skillBlocks = [
 
 export function Skills() {
   const [isVisible, setIsVisible] = useState(false)
-  const [expandedBloc, setExpandedBloc] = useState<string | null>("bloc2")
+  const [expandedBloc, setExpandedBloc] = useState<string | null>(null)
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
@@ -183,7 +183,7 @@ export function Skills() {
           </div>
 
           {/* Skills blocks */}
-          <div className="space-y-6 max-w-4xl mx-auto">
+          <div className="space-y-5 max-w-4xl mx-auto">
             {skillBlocks.map((bloc, blocIndex) => (
               <div
                 key={bloc.id}
