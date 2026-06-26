@@ -121,6 +121,12 @@
   }
 }
 
+.font-display {
+  font-family: var(--font-bebas), 'Bebas Neue', cursive;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -206,7 +212,8 @@
 }
 
 [data-theme="dragonball"] .saiyan-font,
-[data-theme="dragonball"] h1.saiyan-font {
+[data-theme="dragonball"] h1.saiyan-font,
+[data-theme="dragonball"] .font-display {
   animation: saiyan-glow 3s ease-in-out infinite;
 }
 

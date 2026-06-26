@@ -55,14 +55,14 @@ export function About() {
           }`}
         >
           {/* Section header */}
-          <div className="text-center mb-16">
-            <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-2">
-              À propos
-            </h2>
-            <h3 className="text-3xl md:text-4xl font-bold text-foreground">
-              Qui suis-je ?
-            </h3>
-            <div className="w-20 h-1 bg-primary mx-auto mt-4 rounded-full" />
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="text-xs font-mono text-muted-foreground/50 tracking-widest">01</span>
+              <div className="h-px w-6 bg-border" />
+              <span className="text-xs uppercase tracking-widest text-primary font-medium">À propos</span>
+            </div>
+            <h3 className="font-display text-5xl md:text-6xl text-foreground">Qui suis-je ?</h3>
+            <div className="h-px w-full bg-border mt-8" />
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-center">

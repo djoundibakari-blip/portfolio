@@ -168,17 +168,16 @@ export function Skills() {
           }`}
         >
           {/* Section header */}
-          <div className="text-center mb-16">
-            <h2 className="text-sm font-semibold text-primary uppercase tracking-wider mb-2">
-              Compétences RNCP
-            </h2>
-            <h3 className="text-3xl md:text-4xl font-bold text-foreground">
-              Mes blocs de compétences
-            </h3>
-            <div className="w-20 h-1 bg-primary mx-auto mt-4 rounded-full" />
-            <p className="text-muted-foreground max-w-2xl mx-auto mt-6">
-              Voici les compétences acquises dans le cadre de mon titre RNCP,
-              organisées par blocs thématiques.
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-5">
+              <span className="text-xs font-mono text-muted-foreground/50 tracking-widest">03</span>
+              <div className="h-px w-6 bg-border" />
+              <span className="text-xs uppercase tracking-widest text-primary font-medium">Compétences</span>
+            </div>
+            <h3 className="font-display text-5xl md:text-6xl text-foreground">Blocs RNCP</h3>
+            <div className="h-px w-full bg-border mt-8" />
+            <p className="text-muted-foreground max-w-2xl mt-6">
+              Compétences acquises dans le cadre de mon titre RNCP, organisées par blocs thématiques.
             </p>
           </div>
 
