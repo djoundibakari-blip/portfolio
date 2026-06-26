@@ -1,74 +1,35 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Menu, X, Download } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ThemeToggle } from "./theme-toggle"
 
 const navLinks = [
-  { href: "#accueil", label: "Accueil" },
-  { href: "#a-propos", label: "À propos" },
-  { href: "#competences", label: "Compétences" },
-  { href: "#projets", label: "Projets" },
-  { href: "#contact", label: "Contact" },
+  { href: "#accueil",      label: "Accueil" },
+  { href: "#a-propos",     label: "À propos" },
+  { href: "#competences",  label: "Compétences" },
+  { href: "#projets",      label: "Projets" },
+  { href: "#contact",      label: "Contact" },
 ]
 
-export function Navbar() {
+export function Navbar({ activeSection = "accueil" }: { activeSection?: string }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState("accueil")
-
-  useEffect(() => {
-    let rafId: number | null = null
-    const handleScroll = () => {
-      if (rafId) return
-      rafId = requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 50)
-        const sections = navLinks.map((link) => link.href.slice(1))
-        for (const section of sections.reverse()) {
-          const element = document.getElementById(section)
-          if (element && element.getBoundingClientRect().top <= 150) {
-            setActiveSection(section)
-            break
-          }
-        }
-        rafId = null
-      })
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-      if (rafId) cancelAnimationFrame(rafId)
-    }
-  }, [])
 
   const handleNavClick = (href: string) => {
     setIsOpen(false)
-    const element = document.getElementById(href.slice(1))
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
-    }
+    window.dispatchEvent(
+      new CustomEvent("navigate-to-section", { detail: href.slice(1) })
+    )
   }
 
   return (
-    <header
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        scrolled
-          ? "bg-background/95 backdrop-blur-md border-b border-border shadow-lg"
-          : "bg-transparent"
-      )}
-    >
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/40 shadow-sm">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <a
             href="#accueil"
-            onClick={(e) => {
-              e.preventDefault()
-              handleNavClick("#accueil")
-            }}
+            onClick={(e) => { e.preventDefault(); handleNavClick("#accueil") }}
             className="logo text-xl font-bold text-foreground hover:text-primary transition-colors"
           >
             <span className="text-primary">&lt;</span>
@@ -76,30 +37,22 @@ export function Navbar() {
             <span className="text-primary">/&gt;</span>
           </a>
 
-          {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleNavClick(link.href)
-                  }}
+                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href) }}
                   className={cn(
                     "relative text-sm font-medium transition-colors hover:text-primary py-2",
-                    activeSection === link.href.slice(1)
-                      ? "text-primary"
-                      : "text-muted-foreground"
+                    activeSection === link.href.slice(1) ? "text-primary" : "text-muted-foreground"
                   )}
                 >
                   {link.label}
                   <span
                     className={cn(
                       "absolute bottom-0 left-0 w-full h-0.5 bg-primary transform origin-left transition-transform duration-300",
-                      activeSection === link.href.slice(1)
-                        ? "scale-x-100"
-                        : "scale-x-0"
+                      activeSection === link.href.slice(1) ? "scale-x-100" : "scale-x-0"
                     )}
                   />
                 </a>
@@ -115,12 +68,9 @@ export function Navbar() {
                 CV
               </a>
             </li>
-            <li>
-              <ThemeToggle />
-            </li>
+            <li><ThemeToggle /></li>
           </ul>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="md:hidden text-foreground p-2 hover:text-primary transition-colors"
@@ -130,7 +80,6 @@ export function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         <div
           aria-hidden={!isOpen}
           className={cn(
@@ -144,10 +93,7 @@ export function Navbar() {
                 <a
                   href={link.href}
                   tabIndex={isOpen ? 0 : -1}
-                  onClick={(e) => {
-                    e.preventDefault()
-                    handleNavClick(link.href)
-                  }}
+                  onClick={(e) => { e.preventDefault(); handleNavClick(link.href) }}
                   className={cn(
                     "block text-base font-medium transition-colors py-2 px-4 rounded-lg",
                     activeSection === link.href.slice(1)
@@ -170,9 +116,7 @@ export function Navbar() {
                 Télécharger CV
               </a>
             </li>
-            <li className="flex justify-center pt-2">
-              <ThemeToggle />
-            </li>
+            <li className="flex justify-center pt-2"><ThemeToggle /></li>
           </ul>
         </div>
       </nav>
