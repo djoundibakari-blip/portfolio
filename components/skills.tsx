@@ -230,38 +230,19 @@ export function Skills() {
                   className={cn(
                     "overflow-hidden transition-all duration-500",
                     expandedBloc === bloc.id
-                      ? "max-h-[2000px] opacity-100"
+                      ? "max-h-96 opacity-100"
                       : "max-h-0 opacity-0"
                   )}
                 >
-                  <div className="px-6 pb-6 space-y-3">
-                    {bloc.skills.map((skill, skillIndex) => (
-                      <div
+                  <div className="px-6 pb-5 flex flex-wrap gap-2">
+                    {bloc.skills.map((skill) => (
+                      <span
                         key={skill.name}
-                        className={`p-4 bg-secondary/50 rounded-lg border border-border/50 hover:border-primary/30 transition-all duration-300 ${
-                          expandedBloc === bloc.id
-                            ? "translate-x-0 opacity-100"
-                            : "-translate-x-4 opacity-0"
-                        }`}
-                        style={{
-                          transitionDelay:
-                            expandedBloc === bloc.id
-                              ? `${skillIndex * 50}ms`
-                              : "0ms",
-                        }}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-secondary/60 border border-border/60 rounded-full text-sm text-foreground/80 hover:border-primary/40 hover:text-primary transition-colors"
                       >
-                        <div className="flex items-start gap-3">
-                          <div className="w-2 h-2 rounded-full bg-primary mt-2 shrink-0" />
-                          <div>
-                            <h5 className="font-medium text-foreground">
-                              {skill.name}
-                            </h5>
-                            <p className="text-sm text-muted-foreground mt-1">
-                              {skill.description}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                        {skill.name}
+                      </span>
                     ))}
                   </div>
                 </div>
