@@ -279,17 +279,34 @@ type Msg = { key: string; convId: string }
 
 /* ─── main page ─────────────────────────────────────── */
 
+const TYPED_WORD = "Bakari."
+
 export default function Home() {
   const [messages, setMessages]       = useState<Msg[]>([])
   const [typing, setTyping]           = useState(false)
   const [lastPill, setLastPill]       = useState<string | null>(null)
   const [input, setInput]             = useState("")
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [typed, setTyped]             = useState("")
   const bottomRef = useRef<HTMLDivElement>(null)
+
+  const isWelcome = messages.length === 0 && !typing
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages, typing])
+
+  useEffect(() => {
+    if (!isWelcome) return
+    setTyped("")
+    let i = 0
+    const iv = setInterval(() => {
+      i++
+      setTyped(TYPED_WORD.slice(0, i))
+      if (i >= TYPED_WORD.length) clearInterval(iv)
+    }, 90)
+    return () => clearInterval(iv)
+  }, [isWelcome])
 
   const navigate = (convId: string) => {
     setLastPill(convId)
@@ -409,27 +426,59 @@ export default function Home() {
           <div className="flex-1 overflow-y-auto px-4 md:px-8 py-6">
             <div className="max-w-3xl mx-auto space-y-8">
 
-              {/* Welcome (empty history) */}
-              {messages.length === 0 && !typing && (
-                <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
-                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg shadow-primary/10">
-                    <Image src="/profile.jpg" alt="Djoundi" width={80} height={80} className="object-cover w-full h-full" priority />
+              {/* ── Welcome screen ── */}
+              {isWelcome && (
+                <div className="flex flex-col justify-center min-h-[85vh] py-10 space-y-10">
+
+                  {/* Large headline — edwinle.com style */}
+                  <div>
+                    <p className="text-xs font-medium text-primary uppercase tracking-[0.28em] mb-5">
+                      Alternant Développeur Web · Epitech Lyon
+                    </p>
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-foreground leading-[1.05] tracking-tight">
+                      Je suis<br />
+                      Djoundi{" "}
+                      <span className="text-primary whitespace-nowrap">
+                        {typed}
+                        {typed !== TYPED_WORD && (
+                          <span className="inline-block w-[3px] h-[0.8em] bg-primary ml-1 align-middle animate-pulse" />
+                        )}
+                      </span>
+                    </h1>
                   </div>
-                  <div className="space-y-1.5">
-                    <h1 className="text-3xl font-bold text-foreground">Djoundi Bakari</h1>
-                    <p className="text-muted-foreground text-sm">Alternant Développeur Web · Epitech Lyon</p>
+
+                  {/* AI first message — chat bubble */}
+                  <div className="flex gap-3 items-start max-w-lg msg-in" style={{ animationDelay: "400ms" }}>
+                    <div className="w-9 h-9 rounded-full overflow-hidden border-2 border-primary/30 shrink-0 mt-0.5">
+                      <Image src="/profile.jpg" alt="Djoundi" width={36} height={36} className="object-cover w-full h-full" priority />
+                    </div>
+                    <div className="flex-1 bg-card border border-border/70 rounded-2xl rounded-tl-sm px-5 py-4">
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <span className="text-xs font-semibold text-foreground">Djoundi IA</span>
+                        <span className="flex items-center gap-1.5 text-xs text-green-500 font-medium">
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                          en ligne
+                        </span>
+                      </div>
+                      <p className="text-sm text-muted-foreground leading-relaxed">
+                        Bonjour ! Je suis disponible pour répondre à toutes vos questions — mon profil, mes projets, mes compétences ou pour un contact direct.
+                      </p>
+                    </div>
                   </div>
-                  <p className="text-muted-foreground max-w-sm leading-relaxed text-sm">
-                    Bonjour ! Posez-moi une question pour en savoir plus sur mon profil, mes projets et mes compétences.
-                  </p>
-                  {/* Quick-start pills inside welcome */}
-                  <div className="flex flex-wrap justify-center gap-2 max-w-md">
-                    {PILLS.map((p) => (
-                      <button key={p.target} onClick={() => navigate(p.target)}
-                        className="px-4 py-2 rounded-full text-sm border border-border text-muted-foreground bg-card hover:border-primary/60 hover:text-primary transition-all">
-                        {p.text}
-                      </button>
-                    ))}
+
+                  {/* Quick-start pills */}
+                  <div className="msg-in" style={{ animationDelay: "700ms" }}>
+                    <p className="text-xs text-muted-foreground/40 uppercase tracking-[0.22em] mb-3">
+                      Commencer la conversation
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {PILLS.map((p) => (
+                        <button key={p.target} onClick={() => navigate(p.target)}
+                          className="px-4 py-2 rounded-full text-sm border border-border/60 text-muted-foreground bg-secondary/20 hover:border-primary/50 hover:text-primary hover:bg-primary/5 transition-all duration-200">
+                          {p.text}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
