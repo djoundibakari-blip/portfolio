@@ -56,13 +56,13 @@ export const projects = [
   },
   {
     id: 6,
-    title: "Portfolio Personnel",
+    title: "CoreLab — LMS",
     description:
-      "Ce portfolio ! Conçu avec Next.js, TypeScript et Tailwind CSS v4. Multi-thèmes, animations CSS.",
-    tags: ["Next.js", "TypeScript", "Tailwind CSS"],
+      "Plateforme LMS full-stack : gestion de cours, leçons HTML, QCM et suivi des notes. Stack MERN avec auth JWT.",
+    tags: ["React", "Node.js", "MongoDB", "TypeScript"],
     category: "Projet Personnel",
-    github: "https://github.com/djoundibakari-blip/Portfolio",
-    live: "https://portfolio-self-eta-24.vercel.app",
-    image: "/proj-portfolio.png",
+    github: "https://github.com/djoundibakari-blip/corelab",
+    live: "https://corelab-silk.vercel.app",
+    image: "/proj-corelab.png",
   },
 ]
