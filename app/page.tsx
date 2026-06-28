@@ -486,7 +486,7 @@ export default function Home() {
                         </span>
                       </div>
                       <p className="text-sm text-muted-foreground leading-relaxed">
-                        Bonjour ! Je suis disponible pour répondre à toutes vos questions — mon profil, mes projets, mes compétences ou pour un contact direct.
+                        Bonjour ! Je suis disponible pour répondre à toutes vos questions : mon profil, mes projets, mes compétences ou pour un contact direct.
                       </p>
                     </div>
                   </div>
