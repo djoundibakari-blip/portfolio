@@ -6,8 +6,8 @@ export const projects = [
       "Réseau interne avec fil d'actualité, connexion et création de compte. Laravel, Docker, Tailwind CSS.",
     tags: ["Laravel", "Docker", "Tailwind CSS", "PHP"],
     category: "Projet Epitech",
-    github: "https://github.com/djoundibakari-blip/projet-ESN",
-    live: "https://projet-esn.vercel.app",
+    github: "https://github.com/djoundibakari-blip/esn",
+    live: "https://esn-flame.vercel.app",
     image: "/proj-esn.png",
   },
   {
