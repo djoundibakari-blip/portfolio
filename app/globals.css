@@ -28,27 +28,27 @@
   --radius: 0.625rem;
 }
 
-/* Theme 2: Light — Periwinkle Dream palette */
+/* Theme 2: Light — Navy / Gray / Lime palette */
 [data-theme="light"] {
-  --background: #F8F7FF;
-  --foreground: #1a1a2e;
-  --card: #FFEEDD;
-  --card-foreground: #1a1a2e;
-  --popover: #FFEEDD;
-  --popover-foreground: #1a1a2e;
-  --primary: #9381FF;
+  --background: #EBEBEB;
+  --foreground: #10367D;
+  --card: #F5F5F5;
+  --card-foreground: #10367D;
+  --popover: #F5F5F5;
+  --popover-foreground: #10367D;
+  --primary: #10367D;
   --primary-foreground: #ffffff;
-  --secondary: #FFD8BE;
-  --secondary-foreground: #1a1a2e;
-  --muted: #FFD8BE;
-  --muted-foreground: #6b5ea8;
-  --accent: #B8B8FF;
-  --accent-foreground: #1a1a2e;
-  --destructive: #ff3b3b;
+  --secondary: #D8D8D8;
+  --secondary-foreground: #10367D;
+  --muted: #D8D8D8;
+  --muted-foreground: #3D5A9E;
+  --accent: #A5CE00;
+  --accent-foreground: #10367D;
+  --destructive: #cc2200;
   --destructive-foreground: #ffffff;
-  --border: #B8B8FF;
-  --input: #FFEEDD;
-  --ring: #9381FF;
+  --border: #C4C4C4;
+  --input: #F5F5F5;
+  --ring: #10367D;
 }
 
 
