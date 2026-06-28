@@ -42,7 +42,7 @@ function PresentationMsg() {
     <div className="space-y-6">
       <div className="flex items-center gap-5">
         <div className="relative shrink-0">
-          <div className="w-20 h-20 rounded-2xl overflow-hidden border border-border">
+          <div className="w-20 h-20 rounded-full overflow-hidden border border-border">
             <Image src="/profile.jpg" alt="Djoundi Bakari" width={80} height={80} className="object-cover w-full h-full" priority />
           </div>
           <span className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-card" />
@@ -412,7 +412,7 @@ export default function Home() {
               {/* Welcome (empty history) */}
               {messages.length === 0 && !typing && (
                 <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6">
-                  <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-primary/30 shadow-lg shadow-primary/10">
+                  <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/30 shadow-lg shadow-primary/10">
                     <Image src="/profile.jpg" alt="Djoundi" width={80} height={80} className="object-cover w-full h-full" priority />
                   </div>
                   <div className="space-y-1.5">
