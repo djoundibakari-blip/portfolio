@@ -52,102 +52,97 @@ const DIFFICULTIES: { id: Difficulty; label: string; stars: number; desc: string
 const QUIZ: Record<Difficulty, QuizQ[]> = {
   facile: [
     {
-      question: "Quel est l'auteur de Dragon Ball ?",
-      options: ["Masashi Kishimoto", "Eiichiro Oda", "Akira Toriyama", "Kentaro Miura"],
+      question: "Quel auteur a créé Hunter x Hunter ?",
+      options: ["Masashi Kishimoto", "Eiichiro Oda", "Yoshihiro Togashi", "Akira Toriyama"],
       answer: 2,
     },
     {
-      question: "Combien de Dragon Balls existe-t-il dans la série originale ?",
-      options: ["4", "6", "7", "12"],
+      question: "Quel est le nom du démon à 9 queues enfermé dans Naruto ?",
+      options: ["Nibi", "Hachibi", "Kyubi", "Sanbi"],
       answer: 2,
     },
     {
-      question: "Quelle est l'attaque signature de Goku ?",
-      options: ["Rasengan", "Chidori", "Kamehameha", "Getsuga Tensho"],
-      answer: 2,
-    },
-    {
-      question: "Comment s'appelle le fils aîné de Goku ?",
-      options: ["Vegeta", "Goten", "Gohan", "Gotenks"],
-      answer: 2,
-    },
-    {
-      question: "Qui est le dieu de la destruction de l'Univers 7 ?",
-      options: ["Zeno", "Beerus", "Champa", "Belmod"],
-      answer: 1,
-    },
-    {
-      question: "Dans quel pays Dragon Ball a-t-il été créé ?",
-      options: ["Corée du Sud", "Chine", "Hong Kong", "Japon"],
+      question: "Comment s'appelle le Zanpakuto d'Ichigo Kurosaki dans Bleach ?",
+      options: ["Senbonzakura", "Ryujin Jakka", "Hyorinmaru", "Zangetsu"],
       answer: 3,
     },
     {
-      question: "Quel est le vrai nom saiyan de Goku ?",
-      options: ["Raditz", "Bardock", "Kakarot", "Paragus"],
+      question: "Dans Saint Seiya, comment appelle-t-on les armures des guerriers ?",
+      options: ["Cloths", "Armures divines", "Cosmos", "Manteaux"],
+      answer: 0,
+    },
+    {
+      question: "Quelle est l'attaque signature de Goku dans Dragon Ball ?",
+      options: ["Rasengan", "Getsuga Tensho", "Kamehameha", "Detroit Smash"],
       answer: 2,
+    },
+    {
+      question: "Dans Demon Slayer, quel est le nom de l'organisation qui combat les démons ?",
+      options: ["Soul Society", "L'Akatsuki", "Corps des Pourfendeurs de Démons", "La Hunter Association"],
+      answer: 2,
+    },
+    {
+      question: "Dans Jujutsu Kaisen, quel est le nom de la malédiction suprême incarnée dans Yuji Itadori ?",
+      options: ["Sukuna", "Mahito", "Geto", "Jogo"],
+      answer: 0,
     },
   ],
   medium: [
     {
-      question: "Quelle est la planète natale des Saiyans ?",
-      options: ["Namek", "Kanassa", "Frieza", "Vegeta"],
-      answer: 3,
-    },
-    {
-      question: "Par quels accessoires Goku et Vegeta peuvent-ils fusionner dans DBZ ?",
-      options: ["Les boucles Potara", "La Fusion Dance", "Les Dragon Balls", "Le Kaio-Ken"],
-      answer: 0,
-    },
-    {
-      question: "Qui est responsable de la destruction de la planète Vegeta ?",
-      options: ["Cell", "Majin Buu", "Freezer", "Broly"],
+      question: "Dans Hunter x Hunter, quel type de Nen est Killua Zoldyck ?",
+      options: ["Émetteur", "Matérialisateur", "Transmutateur", "Manipulateur"],
       answer: 2,
     },
     {
-      question: "Comment s'appelle le maître de Goku durant son enfance ?",
-      options: ["Piccolo", "King Kai", "Muten Roshi", "Whis"],
-      answer: 2,
-    },
-    {
-      question: "Quel est le nom du père biologique de Goku ?",
-      options: ["Raditz", "Nappa", "Bardock", "Paragus"],
-      answer: 2,
-    },
-    {
-      question: "Quelle œuvre a inspiré Akira Toriyama pour créer Dragon Ball ?",
-      options: ["Naruto", "La Pérégrination vers l'Ouest", "One Piece", "Bleach"],
+      question: "Comment s'appelle le bankai d'Ichigo dans Bleach ?",
+      options: ["Kamishini no Yari", "Tensa Zangetsu", "Senbonzakura Kageyoshi", "Daiguren Hyorinmaru"],
       answer: 1,
     },
     {
-      question: "Combien d'étoiles possède la Dragon Ball de Goku enfant ?",
-      options: ["1 étoile", "3 étoiles", "4 étoiles", "7 étoiles"],
+      question: "Quel est le vrai nom de Tobi dans Naruto Shippuden ?",
+      options: ["Madara Uchiha", "Izuna Uchiha", "Obito Uchiha", "Fugaku Uchiha"],
+      answer: 2,
+    },
+    {
+      question: "Dans Saint Seiya, qui est le Chevalier d'Or du Bélier ?",
+      options: ["Aldébaran", "Deathmask", "Mu", "Shaka"],
+      answer: 2,
+    },
+    {
+      question: "Dans One Piece, comment s'appelle le fruit du démon de Luffy ?",
+      options: ["Gomu Gomu no Mi", "Mera Mera no Mi", "Gura Gura no Mi", "Yami Yami no Mi"],
+      answer: 0,
+    },
+    {
+      question: "Dans My Hero Academia, quel est le vrai nom du Quirk de Deku ?",
+      options: ["All For One", "One For All", "Zero Gravity", "Half-Cold Half-Hot"],
+      answer: 1,
+    },
+    {
+      question: "Dans Dragon Ball Z, qui est responsable de la destruction de la planète Vegeta ?",
+      options: ["Cell", "Majin Buu", "Freezer", "Broly"],
       answer: 2,
     },
   ],
   difficile: [
     {
-      question: "Quel est le nom japonais de la technique 'Ultra Instinct' ?",
-      options: ["Genki Dama", "Migatte no Gokui", "Kaioken x20", "Hakai"],
+      question: "Dans Hunter x Hunter, quel est le type de Nen de Kurapika ?",
+      options: ["Transmutateur", "Émetteur", "Spécialiste", "Matérialisateur"],
+      answer: 2,
+    },
+    {
+      question: "Dans Bleach, quelle est la capacité du Zanpakuto Kyoka Suigetsu d'Aizen ?",
+      options: ["Contrôler le temps", "Infliger une hypnose sensorielle parfaite", "Dupliquer son porteur", "Annuler les pouvoirs adverses"],
       answer: 1,
     },
     {
-      question: "Comment s'appelle la transformation ultime de Gohan dans Dragon Ball Super : Super Hero ?",
-      options: ["Super Saiyan 5", "Ultimate Max", "Gohan Beast", "Mystic Evolution"],
+      question: "Dans Naruto, sous quelle identité Tobi prétendait-il diriger l'Akatsuki ?",
+      options: ["Le vrai Pain", "Nagato", "Madara Uchiha", "Obito"],
       answer: 2,
     },
     {
-      question: "Dans Dragon Ball GT, quelle transformation Goku utilise-t-il contre Li Shenron ?",
-      options: ["Super Saiyan God", "Super Saiyan 5", "Super Saiyan 4", "Ultra Instinct"],
-      answer: 2,
-    },
-    {
-      question: "Cell a été créé à partir des cellules de plusieurs guerriers. Laquelle de ces propositions est correcte ?",
-      options: [
-        "Goku, Piccolo et Raditz uniquement",
-        "Goku, Vegeta, Piccolo, Freezer et d'autres",
-        "Uniquement des Saiyans",
-        "Goku et Frieza uniquement",
-      ],
+      question: "Dans Saint Seiya, quel Chevalier d'Or se révèle être le grand antagoniste de l'arc Sanctuaire ?",
+      options: ["Shaka de la Vierge", "Saga du Gémeaux", "Deathmask du Cancer", "Shura du Capricorne"],
       answer: 1,
     },
     {
@@ -156,14 +151,14 @@ const QUIZ: Record<Difficulty, QuizQ[]> = {
       answer: 2,
     },
     {
-      question: "Quel est le nom de l'ange attitré de l'Univers 7 dans Dragon Ball Super ?",
-      options: ["Grand Prêtre", "Merus", "Whis", "Martinu"],
-      answer: 2,
+      question: "Dans JoJo's Bizarre Adventure, quel est le nom du Stand de Dio Brando ?",
+      options: ["Star Platinum", "Crazy Diamond", "Gold Experience", "The World"],
+      answer: 3,
     },
     {
-      question: "Quel est l'adversaire principal de l'arc 'Tournament of Power' dans Dragon Ball Super ?",
-      options: ["Golden Frieza", "Jiren", "Moro", "Granolah"],
-      answer: 1,
+      question: "Dans Fullmetal Alchemist Brotherhood, quelle était l'origine du personnage connu sous le nom de 'Père' (Father) ?",
+      options: ["Un esprit ancien sans forme", "Un Homunculus créé par Van Hohenheim", "Le Nain dans le Flacon", "Une âme extraite par la Porte"],
+      answer: 2,
     },
   ],
 }
