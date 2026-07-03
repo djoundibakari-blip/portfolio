@@ -5,14 +5,14 @@ import Image from "next/image"
 import Link from "next/link"
 import {
   Send, Download, ArrowUpRight, ChevronDown, ChevronUp,
-  Menu, X, MessageSquare, RotateCcw, ExternalLink,
+  Menu, X, MessageSquare, RotateCcw, Sparkles,
 } from "lucide-react"
 import {
   SiHtml5, SiCss, SiJavascript, SiPhp, SiMysql,
   SiDocker, SiGit, SiTailwindcss, SiBootstrap, SiSpring,
 } from "react-icons/si"
 import { FaJava } from "react-icons/fa"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider, useTheme } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { GithubIcon } from "@/components/icons"
 import { projects } from "@/lib/projects-data"
@@ -40,9 +40,6 @@ const PILLS = [
 type Difficulty = "facile" | "medium" | "difficile"
 type QuizQ = { question: string; options: string[]; answer: number }
 type QuizScreen = "difficulty" | "quiz" | "result"
-
-// à personnaliser
-const PERSONAL_GITHUB = "https://github.com/djoundibakari"
 
 const DIFFICULTIES: { id: Difficulty; label: string; stars: number; desc: string }[] = [
   { id: "facile",    label: "Facile",    stars: 2, desc: "Pour les débutants" },
@@ -172,17 +169,19 @@ const QUIZ: Record<Difficulty, QuizQ[]> = {
 /* ─── easter egg modal ───────────────────────────────── */
 
 function EasterEggModal({ onClose }: { onClose: () => void }) {
-  const [screen, setScreen]     = useState<QuizScreen>("difficulty")
-  const [difficulty, setDiff]   = useState<Difficulty | null>(null)
-  const [currentQ, setCurrentQ] = useState(0)
-  const [selected, setSelected] = useState<number | null>(null)
+  const { hunterUnlocked, unlockHunter } = useTheme()
+
+  const [screen,    setScreen]   = useState<QuizScreen>("difficulty")
+  const [difficulty, setDiff]    = useState<Difficulty | null>(null)
+  const [currentQ,  setCurrentQ] = useState(0)
+  const [selected,  setSelected] = useState<number | null>(null)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
-  const [score, setScore]       = useState(0)
-  const [answered, setAnswered] = useState(0)
+  const [score,     setScore]    = useState(0)
+  const [answered,  setAnswered] = useState(0)
 
   const questions = difficulty ? QUIZ[difficulty] : []
   const q         = questions[currentQ]
-  const passed    = score >= 5
+  const perfect   = score === 7
 
   const startQuiz = (d: Difficulty) => {
     setDiff(d)
@@ -196,10 +195,12 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
 
   const pickAnswer = (idx: number) => {
     if (selected !== null) return
-    const ok = idx === q.answer
+    const ok       = idx === q.answer
+    const newScore = ok ? score + 1 : score
+
     setSelected(idx)
     setIsCorrect(ok)
-    if (ok) setScore(s => s + 1)
+    if (ok) setScore(newScore)
     setAnswered(a => a + 1)
 
     setTimeout(() => {
@@ -208,6 +209,8 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
         setSelected(null)
         setIsCorrect(null)
       } else {
+        /* unlock theme on perfect score */
+        if (newScore === 7 && !hunterUnlocked) unlockHunter()
         setScreen("result")
       }
     }, 1100)
@@ -279,7 +282,7 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
                   Tu as rassemblé les 7 Dragon Balls !
                 </p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  7 questions · Score ≥ 5/7 pour débloquer mon GitHub personnel.
+                  7 questions · 7/7 pour débloquer le thème caché.
                 </p>
               </div>
               <div className="grid gap-2.5">
@@ -287,7 +290,7 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
                   <button
                     key={d.id}
                     onClick={() => startQuiz(d.id)}
-                    className="flex items-center justify-between px-4 py-3.5 border border-border rounded-xl text-left hover:border-primary/50 hover:bg-secondary/30 transition-all group"
+                    className="flex items-center justify-between px-4 py-3.5 border border-border rounded-xl text-left hover:border-primary/50 hover:bg-secondary/30 transition-all"
                   >
                     <div>
                       <p className="font-medium text-foreground text-sm">{d.label}</p>
@@ -310,12 +313,12 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
               <p className="font-medium text-foreground leading-relaxed">{q.question}</p>
               <div className="space-y-2">
                 {q.options.map((opt, i) => {
-                  const isAnswer    = i === q.answer
-                  const isSelected  = i === selected
+                  const isAnswer   = i === q.answer
+                  const isSelected = i === selected
 
                   let cls = "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground hover:bg-secondary/30"
                   if (selected !== null) {
-                    if (isAnswer)                     cls = "border-green-500 bg-green-500/10 text-green-600"
+                    if (isAnswer)                      cls = "border-green-500 bg-green-500/10 text-green-600"
                     else if (isSelected && !isCorrect) cls = "border-red-500 bg-red-500/10 text-red-500"
                     else                               cls = "border-border text-muted-foreground/40"
                   }
@@ -328,8 +331,8 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
                       className={`w-full flex items-center gap-3 px-4 py-3 border rounded-xl text-sm text-left transition-all duration-200 disabled:cursor-default ${cls}`}
                     >
                       <span className={`w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold shrink-0 ${
-                        selected !== null && isAnswer    ? "border-green-500 text-green-500"  :
-                        selected !== null && isSelected  ? "border-red-500   text-red-500"    :
+                        selected !== null && isAnswer   ? "border-green-500 text-green-500" :
+                        selected !== null && isSelected ? "border-red-500 text-red-500"     :
                         "border-current"
                       }`}>
                         {String.fromCharCode(65 + i)}
@@ -346,13 +349,15 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
           {screen === "result" && (
             <div className="space-y-5">
               <div className="text-center space-y-3 py-2">
-                <div className="text-5xl">{passed ? "🐉" : "😤"}</div>
+                <div className="text-5xl">{perfect ? "🐉" : "😤"}</div>
                 <div>
                   <p className="text-2xl font-bold text-foreground tabular-nums">{score} / 7</p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {passed
-                      ? "Impressionnant ! Tu mérites les Dragon Balls."
-                      : "Pas mal, mais les Dragon Balls ne se rendent pas si facilement…"}
+                    {perfect
+                      ? hunterUnlocked
+                        ? "Thème déjà débloqué — retrouve-le dans le sélecteur ✦"
+                        : "Parfait ! Thème débloqué."
+                      : `Il te faut 7/7 pour débloquer le thème caché. (${7 - score} réponse${7 - score > 1 ? "s" : ""} manquante${7 - score > 1 ? "s" : ""})`}
                   </p>
                 </div>
               </div>
@@ -372,27 +377,28 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
                 ))}
               </div>
 
-              {passed ? (
+              {perfect ? (
                 <div className="space-y-3">
-                  <div className="p-4 bg-orange-500/10 border border-orange-500/30 rounded-xl text-center space-y-2">
-                    <p className="text-xs text-muted-foreground">Mon GitHub personnel 🔓</p>
-                    <a
-                      href={PERSONAL_GITHUB}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 font-medium text-orange-500 hover:underline text-sm"
-                    >
-                      <GithubIcon className="w-4 h-4" />
-                      {PERSONAL_GITHUB.replace("https://", "")}
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </div>
+                  {!hunterUnlocked && (
+                    <div className="p-4 bg-primary/10 border border-primary/30 rounded-xl text-center space-y-1.5">
+                      <Sparkles className="w-5 h-5 text-primary mx-auto" />
+                      <p className="text-sm font-semibold text-foreground">Thème hunterdevv0 activé !</p>
+                      <p className="text-xs text-muted-foreground">
+                        Retrouve-le dans le sélecteur de thème en bas à gauche ✦
+                      </p>
+                    </div>
+                  )}
                   <button
-                    onClick={retry}
+                    onClick={() => { retry(); onClose() }}
                     className="w-full flex items-center justify-center gap-2 py-2.5 border border-border rounded-xl text-sm text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
                   >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    Rejouer
+                    Fermer
+                  </button>
+                  <button
+                    onClick={retry}
+                    className="w-full flex items-center justify-center gap-2 py-2 text-xs text-muted-foreground/60 hover:text-muted-foreground transition-colors"
+                  >
+                    <RotateCcw className="w-3 h-3" /> Rejouer
                   </button>
                 </div>
               ) : (
