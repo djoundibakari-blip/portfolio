@@ -5,8 +5,10 @@ import Image from "next/image"
 import Link from "next/link"
 import {
   Send, Download, ArrowUpRight, ChevronDown, ChevronUp,
-  Menu, X, MessageSquare, RotateCcw, Sparkles,
+  Menu, X, MessageSquare, RotateCcw, Sparkles, ExternalLink,
 } from "lucide-react"
+
+const HUNTER_URL = process.env.NEXT_PUBLIC_HUNTER_URL ?? ""
 import {
   SiHtml5, SiCss, SiJavascript, SiPhp, SiMysql,
   SiDocker, SiGit, SiTailwindcss, SiBootstrap, SiSpring,
@@ -379,15 +381,31 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
 
               {perfect ? (
                 <div className="space-y-3">
-                  {!hunterUnlocked && (
-                    <div className="p-4 bg-primary/10 border border-primary/30 rounded-xl text-center space-y-1.5">
-                      <Sparkles className="w-5 h-5 text-primary mx-auto" />
-                      <p className="text-sm font-semibold text-foreground">Thème hunterdevv0 activé !</p>
-                      <p className="text-xs text-muted-foreground">
-                        Retrouve-le dans le sélecteur de thème en bas à gauche ✦
+                  {/* Portal reveal */}
+                  <div className="relative p-5 rounded-xl border border-primary/50 bg-primary/5 text-center space-y-3 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent pointer-events-none" />
+                    <Sparkles className="w-6 h-6 text-primary mx-auto animate-pulse" />
+                    <div>
+                      <p className="text-xs tracking-[0.2em] text-primary uppercase mb-0.5">Portail débloqué</p>
+                      <p className="text-base font-bold text-foreground">hunterdevv0</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Le portfolio caché se révèle à toi.
                       </p>
                     </div>
-                  )}
+                    {HUNTER_URL ? (
+                      <a
+                        href={HUNTER_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 active:scale-95 transition-all"
+                      >
+                        Entrer dans le portail <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    ) : null}
+                    <p className="text-[11px] text-muted-foreground/60">
+                      Thème activé dans le sélecteur ✦
+                    </p>
+                  </div>
                   <button
                     onClick={() => { retry(); onClose() }}
                     className="w-full flex items-center justify-center gap-2 py-2.5 border border-border rounded-xl text-sm text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
