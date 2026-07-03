@@ -8,7 +8,7 @@ import {
   Menu, X, MessageSquare, RotateCcw, Sparkles, ExternalLink,
 } from "lucide-react"
 
-const HUNTER_URL = process.env.NEXT_PUBLIC_HUNTER_URL ?? ""
+const HUNTER_URL = process.env.NEXT_PUBLIC_HUNTER_URL ?? "https://hunterdevv0.vercel.app"
 import {
   SiHtml5, SiCss, SiJavascript, SiPhp, SiMysql,
   SiDocker, SiGit, SiTailwindcss, SiBootstrap, SiSpring,
