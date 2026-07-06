@@ -983,7 +983,7 @@ function PortfolioApp() {
           </div>
 
           {/* Sidebar footer */}
-          <div className="border-t border-border px-3 py-3 flex items-center justify-between">
+          <div className="border-t border-border px-3 py-4 flex items-center justify-between">
             <a
               href="/cv.pdf"
               download
