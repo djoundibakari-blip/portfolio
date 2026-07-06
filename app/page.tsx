@@ -434,6 +434,7 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
 /* ─── section content components ────────────────────── */
 
 function PresentationMsg() {
+  const { registerInteraction } = useTheme()
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-5">
@@ -459,6 +460,7 @@ function PresentationMsg() {
         <a
           href="/cv.pdf"
           download
+          onClick={registerInteraction}
           className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 active:scale-95 transition-all"
         >
           <Download className="w-4 h-4" /> Télécharger le CV
@@ -535,6 +537,7 @@ function AboutMsg() {
 }
 
 function ProjectsMsg() {
+  const { registerInteraction } = useTheme()
   return (
     <div className="space-y-4">
       <div className="grid sm:grid-cols-2 gap-3">
@@ -572,6 +575,7 @@ function ProjectsMsg() {
                   href={p.github}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={registerInteraction}
                   className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors"
                 >
                   <GithubIcon className="w-3.5 h-3.5" /> GitHub
@@ -580,6 +584,7 @@ function ProjectsMsg() {
                   href={p.live}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={registerInteraction}
                   className="flex items-center gap-1 text-xs text-primary hover:underline"
                 >
                   Voir le site <ArrowUpRight className="w-3 h-3" />
@@ -589,7 +594,7 @@ function ProjectsMsg() {
           </div>
         ))}
       </div>
-      <Link href="/projets" className="inline-flex items-center gap-2 text-sm text-primary hover:underline">
+      <Link href="/projets" onClick={registerInteraction} className="inline-flex items-center gap-2 text-sm text-primary hover:underline">
         Voir tous les projets <ArrowUpRight className="w-4 h-4" />
       </Link>
     </div>
@@ -669,6 +674,7 @@ function CompetencesMsg() {
 
 function ContactMsg() {
   type FormState = "idle" | "loading" | "success" | "error"
+  const { registerInteraction } = useTheme()
   const [state, setState] = useState<FormState>("idle")
   const [form, setForm]   = useState({ name: "", email: "", subject: "", message: "" })
 
@@ -679,6 +685,7 @@ function ContactMsg() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
+    registerInteraction()
     setState("loading")
     try {
       const res = await fetch("https://formsubmit.co/ajax/djoundi.bakari@outlook.fr", {
@@ -769,6 +776,16 @@ type Msg = { key: string; convId: string }
 const TYPED_WORD = "Bakari."
 
 export default function Home() {
+  return (
+    <ThemeProvider>
+      <PortfolioApp />
+    </ThemeProvider>
+  )
+}
+
+function PortfolioApp() {
+  const { registerInteraction, interactionEggTrigger } = useTheme()
+
   const [messages,    setMessages]    = useState<Msg[]>([])
   const [typing,      setTyping]      = useState(false)
   const [lastPill,    setLastPill]    = useState<string | null>(null)
@@ -784,6 +801,11 @@ export default function Home() {
   const clickTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const isWelcome = messages.length === 0 && !typing
+
+  /* easter egg — 7 general interactions anywhere on the portfolio */
+  useEffect(() => {
+    if (interactionEggTrigger > 0) setQuizOpen(true)
+  }, [interactionEggTrigger])
 
   /* intro — once per session */
   useEffect(() => {
@@ -815,6 +837,7 @@ export default function Home() {
   }, [isWelcome])
 
   const navigate = useCallback((convId: string) => {
+    registerInteraction()
     setLastPill(convId)
     setSidebarOpen(false)
     setTyping(true)
@@ -822,7 +845,7 @@ export default function Home() {
       setMessages(prev => [...prev, { key: `${convId}-${Date.now()}`, convId }])
       setTyping(false)
     }, 650)
-  }, [])
+  }, [registerInteraction])
 
   const reset = useCallback(() => {
     setMessages([])
@@ -869,8 +892,7 @@ export default function Home() {
   }, [])
 
   return (
-    <ThemeProvider>
-
+    <>
       {/* ── Intro animation ── */}
       {intro && (
         <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-background transition-opacity duration-700 ${introOut ? "opacity-0" : "opacity-100"}`}>
@@ -965,6 +987,7 @@ export default function Home() {
             <a
               href="/cv.pdf"
               download
+              onClick={registerInteraction}
               className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
             >
               <Download className="w-3.5 h-3.5" /> CV
@@ -1178,6 +1201,6 @@ export default function Home() {
           </div>
         </main>
       </div>
-    </ThemeProvider>
+    </>
   )
 }
