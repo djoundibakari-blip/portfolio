@@ -186,14 +186,17 @@ function EggNotification({
           <X className="w-4 h-4" />
         </button>
       </div>
-      <p className="text-xs text-muted-foreground mb-3">Choisis ton quiz :</p>
+      <p className="text-xs text-muted-foreground mb-3">Réponds au quiz pour débloquer un portfolio secret :</p>
       <div className="space-y-2">
         <button
           onClick={() => onSelect("manga")}
           className="w-full flex items-center gap-3 px-3 py-2.5 border border-border rounded-xl text-left hover:border-primary/50 hover:bg-secondary/30 transition-all"
         >
           <BookOpen className="w-4 h-4 text-primary shrink-0" />
-          <span className="flex-1 text-sm text-foreground">Quiz Manga</span>
+          <span className="flex-1 min-w-0">
+            <span className="block text-sm text-foreground">Quiz Manga</span>
+            <span className="block text-[11px] text-primary/80">→ Débloque un portfolio secret</span>
+          </span>
           <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
         </button>
         <div
