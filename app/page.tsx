@@ -1147,24 +1147,6 @@ function PortfolioApp() {
           {/* ── Input area ── */}
           <div className="shrink-0 border-t border-border bg-background/95 backdrop-blur px-4 md:px-8 py-4">
             <div className="max-w-3xl mx-auto space-y-3">
-              {/* Suggestion pills */}
-              <div className="flex flex-wrap gap-2">
-                {PILLS.map((p) => (
-                  <button
-                    key={p.target}
-                    onClick={() => navigate(p.target)}
-                    disabled={typing}
-                    className={`px-3 py-1.5 rounded-full text-xs border transition-all hover:border-primary/60 hover:text-primary hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed ${
-                      lastPill === p.target && !typing
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border text-muted-foreground bg-secondary/30"
-                    }`}
-                  >
-                    {p.text}
-                  </button>
-                ))}
-              </div>
-
               {/* Input */}
               <form onSubmit={handleInput} className="flex items-center gap-2">
                 <input
