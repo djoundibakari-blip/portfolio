@@ -11,7 +11,7 @@ interface ThemeContextType {
   unlockHunter: () => void
   /** call from any meaningful interaction (send a message, download CV, submit contact, click the photo…) */
   registerInteraction: () => void
-  /** current progress toward the interaction threshold — drives the crystal ball indicator */
+  /** current progress toward the interaction threshold — drives the Nen principles indicator */
   interactionCount: number
   /** increments each time the interaction threshold has been reached — watch it to react to the trigger */
   interactionEggTrigger: number

@@ -177,7 +177,7 @@ function EggNotification({
   return (
     <div className="fixed bottom-6 right-6 z-50 w-[calc(100%-3rem)] max-w-xs bg-card border border-border rounded-2xl shadow-2xl p-4 msg-in">
       <div className="flex items-start justify-between gap-2 mb-3">
-        <p className="text-sm font-semibold text-foreground">🐉 {INTERACTION_EGG_THRESHOLD} Dragon Balls réunies !</p>
+        <p className="text-sm font-semibold text-foreground">✨ Les {INTERACTION_EGG_THRESHOLD} grands principes de Nen réunis !</p>
         <button
           onClick={onDismiss}
           className="p-0.5 text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-secondary/50 shrink-0"
@@ -325,7 +325,7 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
             <div className="space-y-5">
               <div>
                 <p className="font-semibold text-foreground mb-1">
-                  Tu as rassemblé les {INTERACTION_EGG_THRESHOLD} Dragon Balls !
+                  Tu as maîtrisé les {INTERACTION_EGG_THRESHOLD} grands principes de Nen !
                 </p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   7 questions · 7/7 pour débloquer le thème caché.
@@ -943,7 +943,7 @@ function PortfolioApp() {
         </div>
       )}
 
-      {/* ── Crystal ball tracker — reacts to every interaction, always visible ── */}
+      {/* ── Nen principles tracker — reacts to every interaction, always visible ── */}
       {!quizOpen && interactionCount > 0 && (
         <div className="fixed top-4 right-4 z-40 flex items-center gap-1.5">
           {Array.from({ length: INTERACTION_EGG_THRESHOLD }, (_, i) => (
