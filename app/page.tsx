@@ -816,10 +816,11 @@ function PortfolioApp() {
     return () => { clearTimeout(fadeOut); clearTimeout(hide) }
   }, [])
 
-  /* auto-scroll to latest message */
+  /* auto-scroll to latest message — never on the static welcome screen */
   useEffect(() => {
+    if (isWelcome) return
     bottomRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages, typing])
+  }, [messages, typing, isWelcome])
 
   /* typewriter on welcome screen */
   useEffect(() => {
