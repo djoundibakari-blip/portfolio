@@ -4,8 +4,8 @@ import { useState, useEffect, useRef, useCallback } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
-  Send, Download, ArrowUpRight, ChevronDown, ChevronUp,
-  Menu, X, MessageSquare, RotateCcw, Sparkles, ExternalLink,
+  Send, Download, ArrowUpRight, ChevronDown, ChevronUp, ChevronRight,
+  Menu, X, MessageSquare, RotateCcw, Sparkles, ExternalLink, Gamepad2, BookOpen,
 } from "lucide-react"
 
 const HUNTER_URL = process.env.NEXT_PUBLIC_HUNTER_URL ?? "https://hunterdevv0.vercel.app"
@@ -161,6 +161,52 @@ const QUIZ: Record<Difficulty, QuizQ[]> = {
       answer: 2,
     },
   ],
+}
+
+/* ─── easter egg notification — pick a quiz ─────────────── */
+
+type QuizCategory = "manga" | "jeuxvideo"
+
+function EggNotification({
+  onSelect,
+  onDismiss,
+}: {
+  onSelect: (category: QuizCategory) => void
+  onDismiss: () => void
+}) {
+  return (
+    <div className="fixed bottom-6 right-6 z-50 w-[calc(100%-3rem)] max-w-xs bg-card border border-border rounded-2xl shadow-2xl p-4 msg-in">
+      <div className="flex items-start justify-between gap-2 mb-3">
+        <p className="text-sm font-semibold text-foreground">🐉 7 Dragon Balls réunies !</p>
+        <button
+          onClick={onDismiss}
+          className="p-0.5 text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-secondary/50 shrink-0"
+          aria-label="Ignorer"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      </div>
+      <p className="text-xs text-muted-foreground mb-3">Choisis ton quiz :</p>
+      <div className="space-y-2">
+        <button
+          onClick={() => onSelect("manga")}
+          className="w-full flex items-center gap-3 px-3 py-2.5 border border-border rounded-xl text-left hover:border-primary/50 hover:bg-secondary/30 transition-all"
+        >
+          <BookOpen className="w-4 h-4 text-primary shrink-0" />
+          <span className="flex-1 text-sm text-foreground">Quiz Manga</span>
+          <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
+        </button>
+        <div
+          className="w-full flex items-center gap-3 px-3 py-2.5 border border-border/50 rounded-xl opacity-50 cursor-not-allowed"
+          aria-disabled="true"
+        >
+          <Gamepad2 className="w-4 h-4 text-muted-foreground shrink-0" />
+          <span className="flex-1 text-sm text-muted-foreground">Quiz Jeux Vidéo</span>
+          <span className="text-[10px] uppercase tracking-wide text-muted-foreground shrink-0">Bientôt</span>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 /* ─── easter egg modal ───────────────────────────────── */
@@ -795,6 +841,7 @@ function PortfolioApp() {
   const [intro,       setIntro]       = useState(true)
   const [introOut,    setIntroOut]    = useState(false)
   const [quizOpen,    setQuizOpen]    = useState(false)
+  const [eggPrompt,   setEggPrompt]   = useState(false)
 
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -802,7 +849,7 @@ function PortfolioApp() {
 
   /* easter egg — 7 general interactions anywhere on the portfolio */
   useEffect(() => {
-    if (interactionEggTrigger > 0) setQuizOpen(true)
+    if (interactionEggTrigger > 0) setEggPrompt(true)
   }, [interactionEggTrigger])
 
   /* intro — once per session */
@@ -860,7 +907,7 @@ function PortfolioApp() {
 
     /* secret text trigger */
     if (/^(dbz|kamehameha|dragon\s*ball)$/i.test(query)) {
-      setQuizOpen(true)
+      setEggPrompt(true)
       setInput("")
       return
     }
@@ -907,6 +954,17 @@ function PortfolioApp() {
             />
           ))}
         </div>
+      )}
+
+      {/* ── Egg notification — choose which quiz to play ── */}
+      {eggPrompt && (
+        <EggNotification
+          onSelect={(category) => {
+            setEggPrompt(false)
+            if (category === "manga") setQuizOpen(true)
+          }}
+          onDismiss={() => setEggPrompt(false)}
+        />
       )}
 
       {/* ── Quiz easter egg modal ── */}
