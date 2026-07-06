@@ -11,15 +11,15 @@ interface ThemeContextType {
   unlockHunter: () => void
   /** call from any meaningful interaction (send a message, download CV, submit contact, click the photo…) */
   registerInteraction: () => void
-  /** current progress toward the 7-interaction threshold — drives the crystal ball indicator */
+  /** current progress toward the interaction threshold — drives the crystal ball indicator */
   interactionCount: number
-  /** increments each time 7 interactions have accumulated — watch it to react to the trigger */
+  /** increments each time the interaction threshold has been reached — watch it to react to the trigger */
   interactionEggTrigger: number
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
-const INTERACTION_EGG_THRESHOLD = 7
+export const INTERACTION_EGG_THRESHOLD = 5
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme,          setThemeState]    = useState<Theme>("dark")
@@ -59,7 +59,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setThemeState("hunterdevv0")
   }, [])
 
-  /* easter egg — 7 meaningful interactions anywhere on the portfolio */
+  /* easter egg — N meaningful interactions anywhere on the portfolio */
   const registerInteraction = useCallback(() => {
     setInteractionCount(prev => {
       const next = prev + 1
