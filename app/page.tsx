@@ -1006,6 +1006,28 @@ function PortfolioApp() {
             </button>
           </div>
 
+          {/* Recruiter CTA — always visible, outside the conversation flow */}
+          <div className="px-4 py-4 border-b border-border space-y-3">
+            <p className="flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-widest text-primary">
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              Disponible pour alternance
+            </p>
+            <a
+              href="/cv.pdf"
+              download
+              onClick={registerInteraction}
+              className="flex items-center justify-center gap-2 w-full px-3 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 active:scale-95 transition-all"
+            >
+              <Download className="w-4 h-4" /> Télécharger mon CV
+            </a>
+            <button
+              onClick={() => navigate("contact")}
+              className="flex items-center justify-center gap-2 w-full px-3 py-2 border border-border rounded-lg text-sm text-foreground hover:border-primary/50 hover:text-primary transition-all"
+            >
+              Me contacter
+            </button>
+          </div>
+
           {/* Conversation list */}
           <div className="flex-1 overflow-y-auto py-3 px-2">
             <div className="px-2 mb-2">
@@ -1033,14 +1055,7 @@ function PortfolioApp() {
 
           {/* Sidebar footer */}
           <div className="border-t border-border px-3 py-4 flex items-center justify-between">
-            <a
-              href="/cv.pdf"
-              download
-              onClick={registerInteraction}
-              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
-            >
-              <Download className="w-3.5 h-3.5" /> CV
-            </a>
+            <span className="text-xs text-muted-foreground">Djoundi Bakari</span>
             <ThemeToggle />
           </div>
         </aside>
@@ -1053,9 +1068,17 @@ function PortfolioApp() {
             <button onClick={() => setSidebarOpen(true)} className="text-muted-foreground hover:text-foreground transition-colors">
               <Menu className="w-5 h-5" />
             </button>
-            <span className="text-sm font-semibold text-foreground">
+            <span className="text-sm font-semibold text-foreground flex-1 min-w-0 truncate">
               {lastPill ? CONVS.find(c => c.id === lastPill)?.label : "Portfolio"}
             </span>
+            <a
+              href="/cv.pdf"
+              download
+              onClick={registerInteraction}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-xs font-semibold active:scale-95 transition-all shrink-0"
+            >
+              <Download className="w-3.5 h-3.5" /> CV
+            </a>
           </div>
 
           {/* Messages */}
@@ -1160,7 +1183,7 @@ function PortfolioApp() {
                       <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary shrink-0 mt-0.5">
                         DJ
                       </div>
-                      <div className="flex-1 bg-card border border-border rounded-2xl rounded-tl-sm p-4 md:p-5">
+                      <div className="flex-1 bg-card border border-border rounded-2xl rounded-tl-sm p-5 md:p-6">
                         <entry.Component />
                       </div>
                     </div>
