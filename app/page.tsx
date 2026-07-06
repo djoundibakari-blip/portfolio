@@ -1009,7 +1009,7 @@ function PortfolioApp() {
           </div>
 
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 md:px-8 py-6">
+          <div className={`flex-1 px-4 md:px-8 py-6 ${isWelcome ? "overflow-hidden" : "overflow-y-auto"}`}>
             <div className="max-w-3xl mx-auto space-y-8">
 
               {/* ── Welcome screen ── */}
