@@ -9,8 +9,10 @@ interface ThemeContextType {
   setTheme: (theme: Theme) => void
   hunterUnlocked: boolean
   unlockHunter: () => void
-  /** call from any meaningful interaction (send a message, download CV, submit contact…) */
+  /** call from any meaningful interaction (send a message, download CV, submit contact, click the photo…) */
   registerInteraction: () => void
+  /** current progress toward the 7-interaction threshold — drives the crystal ball indicator */
+  interactionCount: number
   /** increments each time 7 interactions have accumulated — watch it to react to the trigger */
   interactionEggTrigger: number
 }
@@ -71,7 +73,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   return (
     <ThemeContext.Provider value={{
-      theme, setTheme, hunterUnlocked, unlockHunter, registerInteraction, interactionEggTrigger,
+      theme, setTheme, hunterUnlocked, unlockHunter, registerInteraction, interactionCount, interactionEggTrigger,
     }}>
       {children}
     </ThemeContext.Provider>

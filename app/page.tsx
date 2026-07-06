@@ -784,7 +784,7 @@ export default function Home() {
 }
 
 function PortfolioApp() {
-  const { registerInteraction, interactionEggTrigger } = useTheme()
+  const { registerInteraction, interactionCount, interactionEggTrigger } = useTheme()
 
   const [messages,    setMessages]    = useState<Msg[]>([])
   const [typing,      setTyping]      = useState(false)
@@ -794,11 +794,9 @@ function PortfolioApp() {
   const [typed,       setTyped]       = useState("")
   const [intro,       setIntro]       = useState(true)
   const [introOut,    setIntroOut]    = useState(false)
-  const [dbClicks,    setDbClicks]    = useState(0)
   const [quizOpen,    setQuizOpen]    = useState(false)
 
-  const bottomRef      = useRef<HTMLDivElement>(null)
-  const clickTimerRef  = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   const isWelcome = messages.length === 0 && !typing
 
@@ -876,21 +874,6 @@ function PortfolioApp() {
     setInput("")
   }, [input, navigate])
 
-  /* easter egg — click profile photo 7 times */
-  const handleProfileClick = useCallback(() => {
-    if (clickTimerRef.current) clearTimeout(clickTimerRef.current)
-
-    setDbClicks(prev => {
-      const next = prev + 1
-      if (next >= 7) {
-        setQuizOpen(true)
-        return 0
-      }
-      clickTimerRef.current = setTimeout(() => setDbClicks(0), 4000)
-      return next
-    })
-  }, [])
-
   return (
     <>
       {/* ── Intro animation ── */}
@@ -906,6 +889,22 @@ function PortfolioApp() {
               Djoundi Bakari.
             </h1>
           </div>
+        </div>
+      )}
+
+      {/* ── Crystal ball tracker — reacts to every interaction, always visible ── */}
+      {!quizOpen && interactionCount > 0 && (
+        <div className="fixed top-3 right-3 z-40 flex items-center gap-1 px-3 py-2 rounded-full bg-card border border-border shadow-lg">
+          {Array.from({ length: 7 }, (_, i) => (
+            <div
+              key={i}
+              className={`w-2 h-2 rounded-full transition-all duration-200 ${
+                i < interactionCount
+                  ? "bg-orange-500 scale-100"
+                  : "bg-border scale-75 opacity-30"
+              }`}
+            />
+          ))}
         </div>
       )}
 
@@ -1047,32 +1046,16 @@ function PortfolioApp() {
                     className="flex gap-3 items-start max-w-lg msg-in"
                     style={{ animationDelay: "400ms" }}
                   >
-                    {/* Profile photo — click 7× to trigger easter egg */}
+                    {/* Profile photo — one interaction among many towards the easter egg */}
                     <div className="relative shrink-0 mt-0.5">
                       <button
-                        onClick={handleProfileClick}
+                        onClick={registerInteraction}
                         className="w-9 h-9 rounded-full overflow-hidden border-2 border-primary/30 cursor-pointer select-none focus:outline-none"
                         aria-label="Photo de profil"
                         tabIndex={-1}
                       >
                         <Image src="/profile.jpg" alt="Djoundi" width={36} height={36} className="object-cover w-full h-full" priority />
                       </button>
-
-                      {/* Dragon ball progress dots */}
-                      {dbClicks > 0 && (
-                        <div className="absolute -bottom-5 left-1/2 -translate-x-1/2 flex gap-1">
-                          {Array.from({ length: 7 }, (_, i) => (
-                            <div
-                              key={i}
-                              className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                                i < dbClicks
-                                  ? "bg-orange-500 scale-100"
-                                  : "bg-border scale-75 opacity-30"
-                              }`}
-                            />
-                          ))}
-                        </div>
-                      )}
                     </div>
 
                     <div className="flex-1 bg-card border border-border/70 rounded-2xl rounded-tl-sm px-5 py-4">
