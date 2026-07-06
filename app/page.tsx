@@ -894,13 +894,13 @@ function PortfolioApp() {
 
       {/* ── Crystal ball tracker — reacts to every interaction, always visible ── */}
       {!quizOpen && interactionCount > 0 && (
-        <div className="fixed top-3 right-3 z-40 flex items-center gap-1 px-3 py-2 rounded-full bg-card border border-border shadow-lg">
+        <div className="fixed top-4 right-4 z-40 flex items-center gap-1.5">
           {Array.from({ length: 7 }, (_, i) => (
             <div
               key={i}
-              className={`w-2 h-2 rounded-full transition-all duration-200 ${
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
                 i < interactionCount
-                  ? "bg-orange-500 scale-100"
+                  ? "bg-orange-500 shadow-sm shadow-orange-500/50 scale-100"
                   : "bg-border scale-75 opacity-30"
               }`}
             />
