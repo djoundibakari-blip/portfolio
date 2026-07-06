@@ -991,37 +991,25 @@ function PortfolioApp() {
         `}>
           {/* Sidebar header */}
           <div className="flex items-center justify-between px-4 py-4 border-b border-border">
-            <span className="text-base font-bold text-foreground">
+            <button
+              onClick={reset}
+              title="Nouvelle conversation"
+              className="text-base font-bold text-foreground hover:text-primary transition-colors"
+            >
               <span className="text-primary">&lt;</span>Djoundi<span className="text-primary">/&gt;</span>
-            </span>
-            <div className="flex items-center gap-2">
-              {messages.length > 0 && (
-                <button
-                  onClick={reset}
-                  title="Nouvelle conversation"
-                  className="w-7 h-7 flex items-center justify-center rounded-lg text-muted-foreground hover:text-primary hover:bg-secondary/50 transition-colors text-lg leading-none"
-                >
-                  +
-                </button>
-              )}
-              <button
-                onClick={() => setSidebarOpen(false)}
-                className="md:hidden text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
+            </button>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="md:hidden text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
 
           {/* Conversation list */}
           <div className="flex-1 overflow-y-auto py-3 px-2">
-            <div className="flex items-center justify-between px-2 mb-2">
+            <div className="px-2 mb-2">
               <p className="text-xs text-muted-foreground/60 uppercase tracking-widest">Conversations</p>
-              {messages.length > 0 && (
-                <button onClick={reset} className="text-xs text-muted-foreground/50 hover:text-primary transition-colors">
-                  Réinitialiser
-                </button>
-              )}
             </div>
             <nav className="space-y-0.5">
               {CONVS.map((c, i) => {
