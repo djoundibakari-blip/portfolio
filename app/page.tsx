@@ -44,6 +44,30 @@ type Difficulty = "facile" | "medium" | "difficile"
 type QuizQ = { question: string; options: string[]; answer: number }
 type QuizScreen = "difficulty" | "quiz" | "result"
 
+/* every difficulty, in both quiz categories, always holds this many questions */
+const QUESTIONS_PER_QUIZ = 8
+
+/* Fisher–Yates shuffle — never mutates the source array */
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+/* shuffles a question's answer options too, remapping the correct index,
+   so the right answer is never reliably found at the same position */
+function shuffleQuestionOptions(q: QuizQ): QuizQ {
+  const order = shuffle(q.options.map((_, i) => i))
+  return {
+    question: q.question,
+    options: order.map((i) => q.options[i]),
+    answer: order.indexOf(q.answer),
+  }
+}
+
 const DIFFICULTIES: { id: Difficulty; label: string; stars: number; desc: string }[] = [
   { id: "facile",    label: "Facile",    stars: 2, desc: "Pour les débutants" },
   { id: "medium",    label: "Médium",    stars: 4, desc: "Pour les amateurs" },
@@ -87,6 +111,11 @@ const QUIZ: Record<Difficulty, QuizQ[]> = {
       options: ["Sukuna", "Mahito", "Geto", "Jogo"],
       answer: 0,
     },
+    {
+      question: "Comment s'appelle l'équipage de Luffy dans One Piece ?",
+      options: ["L'équipage du Chapeau de Paille", "Les Pirates du Cœur", "L'équipage de Barbe Blanche", "Les Pirates de Kid"],
+      answer: 0,
+    },
   ],
   medium: [
     {
@@ -124,6 +153,11 @@ const QUIZ: Record<Difficulty, QuizQ[]> = {
       options: ["Cell", "Majin Buu", "Freezer", "Broly"],
       answer: 2,
     },
+    {
+      question: "Dans L'Attaque des Titans, quel est le nom de famille du protagoniste Eren ?",
+      options: ["Jaeger", "Ackerman", "Braus", "Arlert"],
+      answer: 0,
+    },
   ],
   difficile: [
     {
@@ -160,6 +194,11 @@ const QUIZ: Record<Difficulty, QuizQ[]> = {
       question: "Dans Fullmetal Alchemist Brotherhood, quelle était l'origine du personnage connu sous le nom de 'Père' (Father) ?",
       options: ["Un esprit ancien sans forme", "Un Homunculus créé par Van Hohenheim", "Le Nain dans le Flacon", "Une âme extraite par la Porte"],
       answer: 2,
+    },
+    {
+      question: "Dans Jujutsu Kaisen, comment se nomme l'Expansion de Domaine de Gojo Satoru ?",
+      options: ["Vide Infini (Unlimited Void)", "Prison Réaliste", "Domaine de Chimère", "Prière du Serpent"],
+      answer: 0,
     },
   ],
 }
@@ -201,6 +240,11 @@ const QUIZ_JEUXVIDEO: Record<Difficulty, QuizQ[]> = {
       options: ["Ubisoft", "Electronic Arts", "Activision", "Take-Two"],
       answer: 1,
     },
+    {
+      question: "Quel est le nom du hérisson bleu, mascotte de SEGA ?",
+      options: ["Tails", "Sonic", "Knuckles", "Shadow"],
+      answer: 1,
+    },
   ],
   medium: [
     {
@@ -238,6 +282,11 @@ const QUIZ_JEUXVIDEO: Record<Difficulty, QuizQ[]> = {
       options: ["Sorts", "Ultimates et compétences", "Perks", "Runes"],
       answer: 1,
     },
+    {
+      question: "Dans Halo, quel est le nom du super-soldat protagoniste de la série ?",
+      options: ["Master Chief", "Noble Six", "The Arbiter", "Cortana"],
+      answer: 0,
+    },
   ],
   difficile: [
     {
@@ -274,6 +323,11 @@ const QUIZ_JEUXVIDEO: Record<Difficulty, QuizQ[]> = {
       question: "Dans Persona 4, dans quel monde les personnages pénètrent-ils à travers leur téléviseur ?",
       options: ["Le Velvet Room", "Le Midnight Channel / Monde de la Brume", "Le Metaverse", "Tartarus"],
       answer: 1,
+    },
+    {
+      question: "Dans Persona 3 Reload, comment s'appelle le dortoir où vit le protagoniste avec le S.E.E.S. ?",
+      options: ["Le dortoir Iwatodai", "Le dortoir Gekkoukan", "Le dortoir Tatsumi", "Le dortoir Yasogami"],
+      answer: 0,
     },
   ],
 }
@@ -349,18 +403,22 @@ function EasterEggModal({ category, onClose }: { category: QuizCategory; onClose
 
   const [screen,    setScreen]   = useState<QuizScreen>("difficulty")
   const [difficulty, setDiff]    = useState<Difficulty | null>(null)
+  const [questions, setQuestions] = useState<QuizQ[]>([])
   const [currentQ,  setCurrentQ] = useState(0)
   const [selected,  setSelected] = useState<number | null>(null)
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
   const [score,     setScore]    = useState(0)
   const [answered,  setAnswered] = useState(0)
 
-  const questions = difficulty ? quizTable[difficulty] : []
-  const q         = questions[currentQ]
-  const perfect   = score === 7
+  const q       = questions[currentQ]
+  const total   = questions.length
+  const perfect = total > 0 && score === total
 
   const startQuiz = (d: Difficulty) => {
     setDiff(d)
+    /* fresh shuffle every run — question order and per-question answer
+       positions both change, so nothing can be guessed by location */
+    setQuestions(shuffle(quizTable[d]).map(shuffleQuestionOptions))
     setCurrentQ(0)
     setSelected(null)
     setIsCorrect(null)
@@ -386,7 +444,7 @@ function EasterEggModal({ category, onClose }: { category: QuizCategory; onClose
         setIsCorrect(null)
       } else {
         /* unlock theme on perfect score */
-        if (newScore === 7 && !unlocked) unlock()
+        if (newScore === total && !unlocked) unlock()
         setScreen("result")
       }
     }, 1100)
@@ -395,6 +453,7 @@ function EasterEggModal({ category, onClose }: { category: QuizCategory; onClose
   const retry = () => {
     setScreen("difficulty")
     setDiff(null)
+    setQuestions([])
     setCurrentQ(0)
     setSelected(null)
     setIsCorrect(null)
@@ -435,7 +494,7 @@ function EasterEggModal({ category, onClose }: { category: QuizCategory; onClose
         {screen === "quiz" && (
           <div className="px-6 pt-4">
             <div className="flex gap-1">
-              {Array.from({ length: 7 }, (_, i) => (
+              {Array.from({ length: total }, (_, i) => (
                 <div
                   key={i}
                   className={`h-1 flex-1 rounded-full transition-all duration-500 ${
@@ -458,7 +517,7 @@ function EasterEggModal({ category, onClose }: { category: QuizCategory; onClose
                   {intro}
                 </p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  7 questions · 7/7 pour débloquer le thème caché.
+                  {QUESTIONS_PER_QUIZ} questions · {QUESTIONS_PER_QUIZ}/{QUESTIONS_PER_QUIZ} pour débloquer le thème caché.
                 </p>
               </div>
               <div className="grid gap-2.5">
@@ -527,20 +586,20 @@ function EasterEggModal({ category, onClose }: { category: QuizCategory; onClose
               <div className="text-center space-y-3 py-2">
                 <div className="text-5xl">{perfect ? perfectEmoji : "😤"}</div>
                 <div>
-                  <p className="text-2xl font-bold text-foreground tabular-nums">{score} / 7</p>
+                  <p className="text-2xl font-bold text-foreground tabular-nums">{score} / {total}</p>
                   <p className="text-sm text-muted-foreground mt-1">
                     {perfect
                       ? unlocked
                         ? "Thème déjà débloqué — retrouve-le dans le sélecteur ✦"
                         : "Parfait ! Thème débloqué."
-                      : `Il te faut 7/7 pour débloquer le thème caché. (${7 - score} réponse${7 - score > 1 ? "s" : ""} manquante${7 - score > 1 ? "s" : ""})`}
+                      : `Il te faut ${total}/${total} pour débloquer le thème caché. (${total - score} réponse${total - score > 1 ? "s" : ""} manquante${total - score > 1 ? "s" : ""})`}
                   </p>
                 </div>
               </div>
 
               {/* Score dots */}
               <div className="flex gap-1.5 justify-center">
-                {Array.from({ length: 7 }, (_, i) => (
+                {Array.from({ length: total }, (_, i) => (
                   <div
                     key={i}
                     className={`w-4 h-4 rounded-full transition-all duration-300 ${
