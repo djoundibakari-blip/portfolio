@@ -9,6 +9,7 @@ import {
 } from "lucide-react"
 
 const HUNTER_URL = process.env.NEXT_PUBLIC_HUNTER_URL ?? "https://hunterdevv0.vercel.app"
+const PERSONA_URL = process.env.NEXT_PUBLIC_PERSONA_URL ?? "https://persona-3-pi.vercel.app"
 import {
   SiHtml5, SiCss, SiJavascript, SiPhp, SiMysql,
   SiDocker, SiGit, SiTailwindcss, SiBootstrap, SiSpring,
@@ -163,6 +164,120 @@ const QUIZ: Record<Difficulty, QuizQ[]> = {
   ],
 }
 
+const QUIZ_JEUXVIDEO: Record<Difficulty, QuizQ[]> = {
+  facile: [
+    {
+      question: "Quel plombier moustachu est le héros des jeux Nintendo ?",
+      options: ["Luigi", "Wario", "Mario", "Toad"],
+      answer: 2,
+    },
+    {
+      question: "Dans Minecraft, quel matériau permet de fabriquer les outils les plus résistants (hors netherite) ?",
+      options: ["Le fer", "L'or", "Le diamant", "La pierre"],
+      answer: 2,
+    },
+    {
+      question: "Quel est le nom du champ de bataille royale où atterrissent les joueurs de Fortnite ?",
+      options: ["L'Île", "Verdansk", "Erangel", "Le Bunker"],
+      answer: 0,
+    },
+    {
+      question: "Dans la série Zelda, comment s'appelle la princesse que Link doit sauver ?",
+      options: ["Peach", "Zelda", "Impa", "Midna"],
+      answer: 1,
+    },
+    {
+      question: "Quel jeu oppose des équipages de vaisseau devant démasquer un imposteur parmi eux ?",
+      options: ["Fall Guys", "Among Us", "Valorant", "Overcooked"],
+      answer: 1,
+    },
+    {
+      question: "Dans GTA, comment se nomme la ville principale de GTA V ?",
+      options: ["Liberty City", "Vice City", "Los Santos", "San Fierro"],
+      answer: 2,
+    },
+    {
+      question: "Quelle entreprise édite la série de jeux FIFA / EA Sports FC ?",
+      options: ["Ubisoft", "Electronic Arts", "Activision", "Take-Two"],
+      answer: 1,
+    },
+  ],
+  medium: [
+    {
+      question: "Dans League of Legends, comment appelle-t-on les structures à détruire pour gagner ?",
+      options: ["Les tours", "Les nexus", "Les inhibiteurs", "Toutes ces réponses"],
+      answer: 3,
+    },
+    {
+      question: "Dans Overwatch, quel est le rôle de Mercy ?",
+      options: ["Tank", "Dégâts", "Soutien", "Sniper"],
+      answer: 2,
+    },
+    {
+      question: "Dans The Legend of Zelda: Breath of the Wild, quel est le nom du royaume dévasté par Ganon ?",
+      options: ["Hyrule", "Termina", "Lorule", "Holodrum"],
+      answer: 0,
+    },
+    {
+      question: "Dans Red Dead Redemption 2, quel est le nom du gang dirigé par Dutch van der Linde ?",
+      options: ["Les O'Driscoll", "Le gang Van der Linde", "Les Lemoyne Raiders", "Le gang Skinner"],
+      answer: 1,
+    },
+    {
+      question: "Dans The Last of Us, quel type d'infection transforme les habitants en infectés ?",
+      options: ["Un virus", "Un champignon (Cordyceps)", "Une bactérie", "Une radiation"],
+      answer: 1,
+    },
+    {
+      question: "Dans Elden Ring, comment se nomme le monde ouvert exploré par le joueur ?",
+      options: ["Lordran", "Les Terres Intermédiaires", "Drangleic", "Yharnam"],
+      answer: 1,
+    },
+    {
+      question: "Dans Valorant, comment appelle-t-on les capacités spéciales propres à chaque agent ?",
+      options: ["Sorts", "Ultimates et compétences", "Perks", "Runes"],
+      answer: 1,
+    },
+  ],
+  difficile: [
+    {
+      question: "Dans Persona 3, quel est le nom de l'arme utilisée pour invoquer une Persona ?",
+      options: ["Le Compendium", "L'Evoker", "La Velvet Key", "Le Tarot"],
+      answer: 1,
+    },
+    {
+      question: "Dans Persona 5, quel est le nom du groupe formé par le protagoniste et ses alliés ?",
+      options: ["S.E.E.S.", "Les Voleurs Fantômes (Phantom Thieves)", "L'Investigation Team", "Le Velvet Room"],
+      answer: 1,
+    },
+    {
+      question: "Dans Guilty Gear, quel est le véritable nom de Sol Badguy — clin d'œil à Freddie Mercury ?",
+      options: ["Frederick Bulsara", "Kliff Undersn", "Justice", "Testament"],
+      answer: 0,
+    },
+    {
+      question: "Dans Guilty Gear Strive, comment s'appelle la jauge qui permet de déclencher un Overdrive ?",
+      options: ["La jauge de Tension", "La jauge de Burst", "La jauge de Risc", "La jauge de Guard"],
+      answer: 0,
+    },
+    {
+      question: "Dans Armored Core VI: Fires of Rubicon, comment s'appelle le pilote incarné par le joueur ?",
+      options: ["Raven", "621", "Walter", "Rusty"],
+      answer: 1,
+    },
+    {
+      question: "Dans Armored Core VI, quelle ressource rare, à l'origine du conflit sur Rubicon 3, donne son nom à la traînée qu'elle laisse ?",
+      options: ["Le Coral", "L'Allmind", "Le Xylem", "Le Cinder"],
+      answer: 0,
+    },
+    {
+      question: "Dans Persona 4, dans quel monde les personnages pénètrent-ils à travers leur téléviseur ?",
+      options: ["Le Velvet Room", "Le Midnight Channel / Monde de la Brume", "Le Metaverse", "Tartarus"],
+      answer: 1,
+    },
+  ],
+}
+
 /* ─── easter egg notification — pick a quiz ─────────────── */
 
 type QuizCategory = "manga" | "jeuxvideo"
@@ -199,14 +314,17 @@ function EggNotification({
           </span>
           <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
         </button>
-        <div
-          className="w-full flex items-center gap-3 px-3 py-2.5 border border-border/50 rounded-xl opacity-50 cursor-not-allowed"
-          aria-disabled="true"
+        <button
+          onClick={() => onSelect("jeuxvideo")}
+          className="w-full flex items-center gap-3 px-3 py-2.5 border border-border rounded-xl text-left hover:border-primary/50 hover:bg-secondary/30 transition-all"
         >
-          <Gamepad2 className="w-4 h-4 text-muted-foreground shrink-0" />
-          <span className="flex-1 text-sm text-muted-foreground">Quiz Jeux Vidéo</span>
-          <span className="text-[10px] uppercase tracking-wide text-muted-foreground shrink-0">Bientôt</span>
-        </div>
+          <Gamepad2 className="w-4 h-4 text-primary shrink-0" />
+          <span className="flex-1 min-w-0">
+            <span className="block text-sm text-foreground">Quiz Jeux Vidéo</span>
+            <span className="block text-[11px] text-primary/80">→ Débloque un portfolio secret</span>
+          </span>
+          <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
+        </button>
       </div>
     </div>
   )
@@ -214,8 +332,20 @@ function EggNotification({
 
 /* ─── easter egg modal ───────────────────────────────── */
 
-function EasterEggModal({ onClose }: { onClose: () => void }) {
-  const { hunterUnlocked, unlockHunter } = useTheme()
+function EasterEggModal({ category, onClose }: { category: QuizCategory; onClose: () => void }) {
+  const { hunterUnlocked, unlockHunter, personaUnlocked, unlockPersona } = useTheme()
+
+  const isGames    = category === "jeuxvideo"
+  const quizTable  = isGames ? QUIZ_JEUXVIDEO : QUIZ
+  const unlocked   = isGames ? personaUnlocked : hunterUnlocked
+  const unlock     = isGames ? unlockPersona   : unlockHunter
+  const portalUrl  = isGames ? PERSONA_URL     : HUNTER_URL
+  const portalName = isGames ? "persona3reload" : "hunterdevv0"
+  const title      = isGames ? "🎮 Quiz Jeux Vidéo" : "🐉 Quiz Manga"
+  const perfectEmoji = isGames ? "🎮" : "🐉"
+  const intro      = isGames
+    ? "Prêt à prouver ta culture gaming ?"
+    : `Tu as maîtrisé les ${INTERACTION_EGG_THRESHOLD} grands principes de Nen !`
 
   const [screen,    setScreen]   = useState<QuizScreen>("difficulty")
   const [difficulty, setDiff]    = useState<Difficulty | null>(null)
@@ -225,7 +355,7 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
   const [score,     setScore]    = useState(0)
   const [answered,  setAnswered] = useState(0)
 
-  const questions = difficulty ? QUIZ[difficulty] : []
+  const questions = difficulty ? quizTable[difficulty] : []
   const q         = questions[currentQ]
   const perfect   = score === 7
 
@@ -256,7 +386,7 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
         setIsCorrect(null)
       } else {
         /* unlock theme on perfect score */
-        if (newScore === 7 && !hunterUnlocked) unlockHunter()
+        if (newScore === 7 && !unlocked) unlock()
         setScreen("result")
       }
     }, 1100)
@@ -286,7 +416,7 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-secondary/20">
           <div className="flex items-center gap-3">
-            <span className="text-sm font-bold text-foreground">🐉 Quiz Manga</span>
+            <span className="text-sm font-bold text-foreground">{title}</span>
             {screen === "quiz" && (
               <span className="text-xs text-muted-foreground tabular-nums">
                 {currentQ + 1} / {questions.length}
@@ -325,7 +455,7 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
             <div className="space-y-5">
               <div>
                 <p className="font-semibold text-foreground mb-1">
-                  Tu as maîtrisé les {INTERACTION_EGG_THRESHOLD} grands principes de Nen !
+                  {intro}
                 </p>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   7 questions · 7/7 pour débloquer le thème caché.
@@ -395,12 +525,12 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
           {screen === "result" && (
             <div className="space-y-5">
               <div className="text-center space-y-3 py-2">
-                <div className="text-5xl">{perfect ? "🐉" : "😤"}</div>
+                <div className="text-5xl">{perfect ? perfectEmoji : "😤"}</div>
                 <div>
                   <p className="text-2xl font-bold text-foreground tabular-nums">{score} / 7</p>
                   <p className="text-sm text-muted-foreground mt-1">
                     {perfect
-                      ? hunterUnlocked
+                      ? unlocked
                         ? "Thème déjà débloqué — retrouve-le dans le sélecteur ✦"
                         : "Parfait ! Thème débloqué."
                       : `Il te faut 7/7 pour débloquer le thème caché. (${7 - score} réponse${7 - score > 1 ? "s" : ""} manquante${7 - score > 1 ? "s" : ""})`}
@@ -431,14 +561,14 @@ function EasterEggModal({ onClose }: { onClose: () => void }) {
                     <Sparkles className="w-6 h-6 text-primary mx-auto animate-pulse" />
                     <div>
                       <p className="text-xs tracking-[0.2em] text-primary uppercase mb-0.5">Portail débloqué</p>
-                      <p className="text-base font-bold text-foreground">hunterdevv0</p>
+                      <p className="text-base font-bold text-foreground">{portalName}</p>
                       <p className="text-xs text-muted-foreground mt-1">
                         Le portfolio caché se révèle à toi.
                       </p>
                     </div>
-                    {HUNTER_URL ? (
+                    {portalUrl ? (
                       <a
-                        href={HUNTER_URL}
+                        href={portalUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-lg text-sm font-semibold hover:bg-primary/90 active:scale-95 transition-all"
@@ -818,7 +948,9 @@ const CONTENT: Record<string, { question: string; Component: React.FC }> = {
   contact:      { question: "Comment te contacter ?",         Component: ContactMsg },
 }
 
-type Msg = { key: string; convId: string }
+type Msg =
+  | { key: string; kind: "static"; convId: string }
+  | { key: string; kind: "dynamic"; question: string; answer: string }
 
 /* ─── main page ─────────────────────────────────────── */
 
@@ -843,8 +975,9 @@ function PortfolioApp() {
   const [typed,       setTyped]       = useState("")
   const [intro,       setIntro]       = useState(true)
   const [introOut,    setIntroOut]    = useState(false)
-  const [quizOpen,    setQuizOpen]    = useState(false)
+  const [quizCategory, setQuizCategory] = useState<QuizCategory | null>(null)
   const [eggPrompt,   setEggPrompt]   = useState(false)
+  const [pendingQuestion, setPendingQuestion] = useState<string | null>(null)
 
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -891,7 +1024,7 @@ function PortfolioApp() {
     setSidebarOpen(false)
     setTyping(true)
     setTimeout(() => {
-      setMessages(prev => [...prev, { key: `${convId}-${Date.now()}`, convId }])
+      setMessages(prev => [...prev, { key: `${convId}-${Date.now()}`, kind: "static", convId }])
       setTyping(false)
     }, 650)
   }, [registerInteraction])
@@ -902,6 +1035,39 @@ function PortfolioApp() {
     setLastPill(null)
     setSidebarOpen(false)
   }, [])
+
+  const askAI = useCallback(async (query: string) => {
+    registerInteraction()
+    setLastPill(null)
+    setPendingQuestion(query)
+    setTyping(true)
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: query }),
+      })
+      const data = await res.json()
+      setMessages(prev => [...prev, {
+        key: `ai-${Date.now()}`,
+        kind: "dynamic",
+        question: query,
+        answer: typeof data.reply === "string" && data.reply.trim()
+          ? data.reply
+          : "Désolé, je n'ai pas de réponse pour le moment.",
+      }])
+    } catch {
+      setMessages(prev => [...prev, {
+        key: `ai-${Date.now()}`,
+        kind: "dynamic",
+        question: query,
+        answer: "Oups, une erreur est survenue. Réessaie dans un instant !",
+      }])
+    } finally {
+      setTyping(false)
+      setPendingQuestion(null)
+    }
+  }, [registerInteraction])
 
   const handleInput = useCallback((e: React.FormEvent) => {
     e.preventDefault()
@@ -916,14 +1082,17 @@ function PortfolioApp() {
     }
 
     const lower = query.toLowerCase()
-    const match =
-      PILLS.find(p =>
-        lower.includes(p.target) ||
-        lower.includes(p.text.toLowerCase().slice(0, 6))
-      ) ?? PILLS[0]
-    navigate(match.target)
+    const match = PILLS.find(p =>
+      lower.includes(p.target) ||
+      lower.includes(p.text.toLowerCase().slice(0, 6))
+    )
+    if (match) {
+      navigate(match.target)
+    } else {
+      askAI(query)
+    }
     setInput("")
-  }, [input, navigate])
+  }, [input, navigate, askAI])
 
   return (
     <>
@@ -944,7 +1113,7 @@ function PortfolioApp() {
       )}
 
       {/* ── Nen principles tracker — reacts to every interaction, always visible ── */}
-      {!quizOpen && interactionCount > 0 && (
+      {!quizCategory && interactionCount > 0 && (
         <div className="fixed top-4 right-4 z-40 flex items-center gap-1.5">
           {Array.from({ length: INTERACTION_EGG_THRESHOLD }, (_, i) => (
             <div
@@ -964,14 +1133,16 @@ function PortfolioApp() {
         <EggNotification
           onSelect={(category) => {
             setEggPrompt(false)
-            if (category === "manga") setQuizOpen(true)
+            setQuizCategory(category)
           }}
           onDismiss={() => setEggPrompt(false)}
         />
       )}
 
       {/* ── Quiz easter egg modal ── */}
-      {quizOpen && <EasterEggModal onClose={() => setQuizOpen(false)} />}
+      {quizCategory && (
+        <EasterEggModal category={quizCategory} onClose={() => setQuizCategory(null)} />
+      )}
 
       <div className="fixed inset-0 flex bg-background">
 
@@ -1035,7 +1206,7 @@ function PortfolioApp() {
             </div>
             <nav className="space-y-0.5">
               {CONVS.map((c, i) => {
-                const active = messages.some(m => m.convId === c.id) || lastPill === c.id
+                const active = messages.some(m => m.kind === "static" && m.convId === c.id) || lastPill === c.id
                 return (
                   <button
                     key={c.id}
@@ -1168,23 +1339,47 @@ function PortfolioApp() {
 
               {/* ── Message history ── */}
               {messages.map((msg) => {
-                const entry = CONTENT[msg.convId]
-                if (!entry) return null
+                if (msg.kind === "static") {
+                  const entry = CONTENT[msg.convId]
+                  if (!entry) return null
+                  return (
+                    <div key={msg.key} className="space-y-4 msg-in">
+                      {/* User bubble */}
+                      <div className="flex justify-end">
+                        <div className="max-w-xs px-4 py-2.5 bg-primary text-primary-foreground rounded-2xl rounded-br-sm text-sm">
+                          {entry.question}
+                        </div>
+                      </div>
+                      {/* AI response */}
+                      <div className="flex gap-3 items-start">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary shrink-0 mt-0.5">
+                          DJ
+                        </div>
+                        <div className="flex-1 bg-card border border-border rounded-2xl rounded-tl-sm p-5 md:p-6">
+                          <entry.Component />
+                        </div>
+                      </div>
+                    </div>
+                  )
+                }
+
                 return (
                   <div key={msg.key} className="space-y-4 msg-in">
                     {/* User bubble */}
                     <div className="flex justify-end">
                       <div className="max-w-xs px-4 py-2.5 bg-primary text-primary-foreground rounded-2xl rounded-br-sm text-sm">
-                        {entry.question}
+                        {msg.question}
                       </div>
                     </div>
-                    {/* AI response */}
+                    {/* AI response (free-form, from the n8n / Groq assistant) */}
                     <div className="flex gap-3 items-start">
                       <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-xs font-bold text-primary shrink-0 mt-0.5">
                         DJ
                       </div>
                       <div className="flex-1 bg-card border border-border rounded-2xl rounded-tl-sm p-5 md:p-6">
-                        <entry.Component />
+                        <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                          {msg.answer}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -1196,7 +1391,7 @@ function PortfolioApp() {
                 <div className="space-y-4 msg-in">
                   <div className="flex justify-end">
                     <div className="max-w-xs px-4 py-2.5 bg-primary text-primary-foreground rounded-2xl rounded-br-sm text-sm opacity-70">
-                      {lastPill ? CONTENT[lastPill]?.question : "…"}
+                      {lastPill ? CONTENT[lastPill]?.question : pendingQuestion ?? "…"}
                     </div>
                   </div>
                   <div className="flex gap-3 items-start">
