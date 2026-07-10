@@ -1,20 +1,14 @@
 "use client"
 
-import { Moon, Sun, Sparkles, Gamepad2 } from "lucide-react"
+import { Moon, Sun } from "lucide-react"
 import { useTheme } from "./theme-provider"
 
 export function ThemeToggle() {
-  const { theme, setTheme, hunterUnlocked, personaUnlocked } = useTheme()
+  const { theme, setTheme } = useTheme()
 
   const themes = [
-    { id: "dark"        as const, icon: Moon,     label: "Sombre" },
-    { id: "light"       as const, icon: Sun,      label: "Clair" },
-    ...(hunterUnlocked
-      ? [{ id: "hunterdevv0" as const, icon: Sparkles, label: "Hunter" }]
-      : []),
-    ...(personaUnlocked
-      ? [{ id: "persona3reload" as const, icon: Gamepad2, label: "Persona" }]
-      : []),
+    { id: "dark"  as const, icon: Moon, label: "Sombre" },
+    { id: "light" as const, icon: Sun,  label: "Clair" },
   ]
 
   return (
